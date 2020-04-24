@@ -18,15 +18,16 @@ firebase.initializeApp(config);
 
 const db = admin.firestore();
 
-app.get("post", (req, res) => {
-  db.collection("posts")
+// Get all tweets.
+app.get("/tweets", (req, res) => {
+  db.collection("tweets")
     .orderBy("createdAt", "desc")
     .get()
     .then((data) => {
-      let posts = [];
+      let tweets = [];
       data.forEach((doc) => {
-        posts.push({
-          postID: doc.id,
+        tweets.push({
+          tweetID: doc.id,
           userHandle: doc.data().userHandle,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
@@ -34,19 +35,54 @@ app.get("post", (req, res) => {
           commentCount: doc.data().commentCount,
         });
       });
-      return res.json(posts);
+      return res.json(tweets);
     })
     .catch((err) => console.log(err));
 });
 
-app.post("/post", (req, res) => {
-  const newPost = {
-    userHandle: req.body.userHandle,
+const FBAuth = (req, res, next) => {
+  let idToken;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer ")
+  ) {
+    idToken = req.headers.authorization.split("Bearer ")[1];
+  } else {
+    console.log("No token found");
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  admin
+    .auth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+      req.user = decodedToken;
+      return db
+        .collection("users")
+        .where("userId", "==", req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then((data) => {
+      req.user.userHandle = data.docs[0].data().userHandle;
+      return next();
+    })
+    .catch((err) => {
+      console.error("Error while verifying token ", err);
+      return res.status(403).json(err);
+    });
+};
+
+// Post one tweet.
+app.post("/tweet", FBAuth, (req, res) => {
+  const newTweet = {
+    userHandle: req.user.userHandle,
     body: req.body.body,
     createdAt: new Date().toISOString(),
   };
-  db.collection("posts")
-    .add(newPost)
+
+  db.collection("tweets")
+    .add(newTweet)
     .then((doc) => {
       res.json({ message: `document ${doc.id} created succesfully` });
     })
@@ -122,7 +158,7 @@ app.post("/signup", (req, res) => {
       return data.user.getIdToken();
     })
     .then((idToken) => {
-      const token = idToken;
+      token = idToken;
       const userCredentials = {
         userId: userId,
         userHandle: newUser.userHandle,
@@ -153,12 +189,12 @@ app.post("/login", (req, res) => {
   let errors = {};
 
   // Validate data.
-  if (isEmpty(newUser.email)) {
+  if (isEmpty(user.email)) {
     errors.email = "Must not be empty";
-  } else if (!isEmail(newUser.email)) {
+  } else if (!isEmail(user.email)) {
     errors.email = "Must be a valid email address";
   }
-  if (isEmpty(newUser.password)) {
+  if (isEmpty(user.password)) {
     errors.password = "Must not be empty";
   }
 
