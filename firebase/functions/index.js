@@ -1,7 +1,7 @@
+const firebase = require("firebase");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const app = require("express")();
-const firebase = require("firebase");
 
 const config = {
   apiKey: "AIzaSyD9WKKCwZsfwh_AinuTkGncDKWtGfv-Jew",
