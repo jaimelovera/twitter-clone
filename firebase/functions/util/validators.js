@@ -23,12 +23,13 @@ exports.validateSignupData = (data) => {
   } else if (!isEmail(data.email)) {
     errors.email = "Must be a valid email address";
   }
+
   if (isEmpty(data.password)) {
     errors.password = "Must not be empty";
-  }
-  if (data.password !== data.confirmPassword) {
+  } else if (data.password !== data.confirmPassword) {
     errors.confirmPassword = "Passwords must match";
   }
+
   if (isEmpty(data.userHandle)) {
     errors.userHandle = "Must not be empty";
   }
@@ -48,6 +49,7 @@ exports.validateLoginData = (data) => {
   } else if (!isEmail(data.email)) {
     errors.email = "Must be a valid email address";
   }
+
   if (isEmpty(data.password)) {
     errors.password = "Must not be empty";
   }
