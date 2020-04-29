@@ -9,7 +9,7 @@ exports.getAllTweets = (req, res) => {
       data.forEach((doc) => {
         tweets.push({
           tweetID: doc.id,
-          userHandle: doc.data().userHandle,
+          handle: doc.data().handle,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
           likeCount: doc.data().likeCount,
@@ -23,7 +23,7 @@ exports.getAllTweets = (req, res) => {
 
 exports.postOneTweet = (req, res) => {
   const newTweet = {
-    userHandle: req.user.userHandle,
+    handle: req.user.handle,
     body: req.body.body,
     createdAt: new Date().toISOString(),
     likeCount: 0,

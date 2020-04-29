@@ -1,14 +1,19 @@
 const { firebase, db, config } = require("../util/firebase");
 
 const { admin } = require("../util/admin");
-const { validateSignupData, validateLoginData } = require("../util/validators");
+const {
+  validateSignupData,
+  validateLoginData,
+  reduceUserDetails,
+} = require("../util/validators");
 
+// Sign user up.
 exports.signup = (req, res) => {
   const newUser = {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    userHandle: req.body.userHandle,
+    handle: req.body.handle,
   };
 
   const { valid, errors } = validateSignupData(newUser);
@@ -19,13 +24,11 @@ exports.signup = (req, res) => {
 
   // Check that handle and email are not being used already.
   let token, userId;
-  db.doc(`/users/${newUser.userHandle}`)
+  db.doc(`/users/${newUser.handle}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
-        return res
-          .status(400)
-          .json({ userHandle: "this handle is already taken" });
+        return res.status(400).json({ handle: "this handle is already taken" });
       } else {
         return firebase
           .auth()
@@ -40,12 +43,12 @@ exports.signup = (req, res) => {
       token = idToken;
       const userCredentials = {
         userId: userId,
-        userHandle: newUser.userHandle,
+        handle: newUser.handle,
         email: newUser.email,
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${blankProfileImg}?alt=media`,
         createdAt: new Date().toISOString(),
       };
-      return db.doc(`/users/${newUser.userHandle}`).set(userCredentials);
+      return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
     .then(() => {
       return res.json({ token });
@@ -60,6 +63,7 @@ exports.signup = (req, res) => {
     });
 };
 
+// Log user in.
 exports.login = (req, res) => {
   const user = {
     email: req.body.email,
@@ -91,6 +95,48 @@ exports.login = (req, res) => {
     });
 };
 
+// Add user details
+exports.addUserDetails = (req, res) => {
+  let userDetails = reduceUserDetails(req.body);
+
+  db.doc(`/users/${req.user.handle}`)
+    .update(userDetails)
+    .then(() => {
+      return res.json({ message: "Details added succesfully" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.code });
+    });
+};
+
+// Get own user details.
+exports.getAuthenticatedUser = (req, res) => {
+  let userData = {};
+  db.doc(`/users/${req.user.handle}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData.credentials = doc.data();
+        return db
+          .collection("likes")
+          .where("handle", "==", req.user.handle)
+          .get();
+      }
+    })
+    .then((data) => {
+      userData.likes = [];
+      data.forEach((doc) => {
+        userData.likes.push(doc.data());
+      });
+      return res.json({ userData });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
+
+// Upload a profile image for user.
 exports.uploadImage = (req, res) => {
   const BusBoy = require("busboy");
   const path = require("path");
@@ -108,7 +154,7 @@ exports.uploadImage = (req, res) => {
     }
     // Grab file extension type.
     const imageExtension = filename.split(".").pop();
-    imageFileName = `${req.user.userHandle}.${imageExtension}`;
+    imageFileName = `${req.user.handle}.${imageExtension}`;
     const filepath = path.join(os.tmpdir(), imageFileName);
     imageToBeUploaded = { filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));
@@ -123,7 +169,7 @@ exports.uploadImage = (req, res) => {
       })
       .then(() => {
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
-        return db.doc(`/users/${req.user.userHandle}`).update({ imageUrl });
+        return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
       })
       .then(() => {
         return res.json({ message: "Image uploaded succesfully" });
