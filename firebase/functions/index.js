@@ -45,6 +45,9 @@ app.post("/notifications", FBAuth, markNotificationsRead);
    It will add "/api" to all of our api routes */
 exports.api = functions.https.onRequest(app);
 
+// Database triggers to upadate collections when certain fields are changed.
+
+// When a post is liked, create a notification for the posts author.
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")
   .onCreate((snapshot) => {
@@ -68,6 +71,7 @@ exports.createNotificationOnLike = functions.firestore
       });
   });
 
+// When a user removes a like, delete any notification that was created for that like.
 exports.deleteNotificationOnUnlike = functions.firestore
   .document("likes/{id}")
   .onDelete((snapshot) => {
@@ -80,6 +84,7 @@ exports.deleteNotificationOnUnlike = functions.firestore
       });
   });
 
+// When a comment is created, create a notification for the posts author.
 exports.createNotificationOnComment = functions.firestore
   .document("comments/{id}")
   .onCreate((snapshot) => {
@@ -101,5 +106,63 @@ exports.createNotificationOnComment = functions.firestore
       .catch((err) => {
         console.error(err);
         return;
+      });
+  });
+
+// When a user changes their photo, update all url datapoints of that user.
+exports.onUserImageChange = functions.firestore
+  .document("users/{userId}")
+  .onUpdate((change) => {
+    if (change.before.data().imageUrl !== change.after.data().imageUrl) {
+      const batch = db.batch();
+      return db
+        .collection("tweets")
+        .where("handle", "==", change.before.data().handle)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            const tweet = db.doc(`/tweets/${doc.id}`);
+            batch.update(tweet, { userImage: change.after.data().imageUrl });
+          });
+          return batch.commit();
+        });
+    } else {
+      return true;
+    }
+  });
+
+// When a post is deleted, delete all datapoints that were attributed to the post.
+exports.onTweetDelete = functions.firestore
+  .document("tweets/{tweetId}")
+  .onDelete((snapshot, context) => {
+    const tweetId = context.params.tweetId;
+    const batch = db.batch();
+    return db
+      .collection("comments")
+      .where("tweetId", "==", tweetId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/comments/${doc.id}`));
+        });
+        return db.collection("likes").where("tweetId", "==", tweetId).get();
+      })
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/likes/${doc.id}`));
+        });
+        return db
+          .collection("notifications")
+          .where("tweetId", "==", tweetId)
+          .get();
+      })
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/notifications/${doc.id}`));
+        });
+        return batch.commit();
+      })
+      .catch((err) => {
+        console.error(err);
       });
   });
