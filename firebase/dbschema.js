@@ -30,6 +30,16 @@ let db = {
       createdAt: "2020-04-22T14:48:28.015Z",
     },
   ],
+  notifications: [
+    {
+      recipient: "user",
+      sender: "user2",
+      read: "true | false",
+      tweetId: "59gh8bntghkvb45jkg",
+      type: "like | comment",
+      createdAt: "2020-04-22T14:48:28.015Z",
+    },
+  ],
   userDetails: [
     {
       //Redux data
