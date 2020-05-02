@@ -22,6 +22,14 @@ let db = {
       commentCount: 1,
     },
   ],
+  comments: [
+    {
+      userHandle: "user",
+      tweetId: "59gh8bntghkvb45jkg",
+      body: "this is the body text!",
+      createdAt: "2020-04-22T14:48:28.015Z",
+    },
+  ],
   userDetails: [
     {
       //Redux data
