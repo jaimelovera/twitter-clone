@@ -23,9 +23,14 @@ exports.getAllTweets = (req, res) => {
 
 // Post a tweet
 exports.postOneTweet = (req, res) => {
+  if (req.body.body.trim() === "") {
+    return res.status(400).json({ body: "Body must not be empty" });
+  }
+
   const newTweet = {
     handle: req.user.handle,
     body: req.body.body,
+    userImage: req.user.imageUrl,
     createdAt: new Date().toISOString(),
     likeCount: 0,
     commentCount: 0,
@@ -34,7 +39,9 @@ exports.postOneTweet = (req, res) => {
   db.collection("tweets")
     .add(newTweet)
     .then((doc) => {
-      res.json({ message: `document ${doc.id} created succesfully` });
+      const resTweet = newTweet;
+      resTweet.tweetId = doc.id;
+      res.json(resTweet);
     })
     .catch((err) => {
       res.status(500).json({ error: "something went wrong" });
@@ -92,6 +99,9 @@ exports.commentOnTweet = (req, res) => {
       if (!doc.exists) {
         return res.status(404).json({ error: "Tweet not found" });
       }
+      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+    })
+    .then(() => {
       return db.collection("comments").add(newComment);
     })
     .then(() => {
@@ -100,5 +110,122 @@ exports.commentOnTweet = (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).json({ error: "Something went wrong" });
+    });
+};
+
+// Like a tweet
+exports.likeTweet = (req, res) => {
+  const likeDocument = db
+    .collection("likes")
+    .where("handle", "==", req.user.handle)
+    .where("tweetId", "==", req.params.tweetId)
+    .limit(1);
+
+  const tweetDocument = db.doc(`/tweets/${req.params.tweetId}`);
+
+  let tweetData;
+
+  tweetDocument
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        tweetData = doc.data();
+        tweetData.tweetId = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: "Tweet not found" });
+      }
+    })
+    .then((data) => {
+      if (data.empty) {
+        return db
+          .collection("likes")
+          .add({
+            tweetId: req.params.tweetId,
+            handle: req.user.handle,
+          })
+          .then(() => {
+            tweetData.likeCount++;
+            return tweetDocument.update({ likeCount: tweetData.likeCount });
+          })
+          .then(() => {
+            return res.json(tweetData);
+          });
+      } else {
+        return res.status(400).json({ error: "Tweet already liked" });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
+// Unlike a tweet
+exports.unlikeTweet = (req, res) => {
+  const likeDocument = db
+    .collection("likes")
+    .where("handle", "==", req.user.handle)
+    .where("tweetId", "==", req.params.tweetId)
+    .limit(1);
+
+  const tweetDocument = db.doc(`/tweets/${req.params.tweetId}`);
+
+  let tweetData;
+
+  tweetDocument
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        tweetData = doc.data();
+        tweetData.tweetId = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: "Tweet not found" });
+      }
+    })
+    .then((data) => {
+      if (data.empty) {
+        return res.status(400).json({ error: "Tweet not liked" });
+      } else {
+        return db
+          .doc(`/likes/${data.docs[0].id}`)
+          .delete()
+          .then(() => {
+            tweetData.likeCount--;
+            return tweetDocument.update({ likeCount: tweetData.likeCount });
+          })
+          .then(() => {
+            return res.json(tweetData);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
+// Delete a tweet
+exports.deleteTweet = (req, res) => {
+  const document = db.doc(`/tweets/${req.params.tweetId}`);
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return res.status(404).json({ error: "Tweet not found" });
+      }
+      if (doc.data().handle !== req.user.handle) {
+        return res.status(403).json({ error: "Unauthorized" });
+      } else {
+        return document.delete();
+      }
+    })
+    .then(() => {
+      res.json({ message: "Tweet deleted succesfully" });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
     });
 };
