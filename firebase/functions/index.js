@@ -48,10 +48,11 @@ exports.api = functions.https.onRequest(app);
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")
   .onCreate((snapshot) => {
-    db.doc(`/tweets/${snapshot.data().tweetId}`)
+    return db
+      .doc(`/tweets/${snapshot.data().tweetId}`)
       .get()
       .then((doc) => {
-        if (doc.exists) {
+        if (doc.exists && doc.data().handle !== snapshot.data().handle) {
           return db.doc(`/notifications/${snapshot.id}`).set({
             recipient: doc.data().handle,
             sender: snapshot.data().handle,
@@ -62,23 +63,17 @@ exports.createNotificationOnLike = functions.firestore
           });
         }
       })
-      .then(() => {
-        return;
-      })
       .catch((err) => {
         console.error(err);
-        return;
       });
   });
 
 exports.deleteNotificationOnUnlike = functions.firestore
   .document("likes/{id}")
   .onDelete((snapshot) => {
-    db.doc(`/notifications/${snapshot.id}`)
+    return db
+      .doc(`/notifications/${snapshot.id}`)
       .delete()
-      .then(() => {
-        return;
-      })
       .catch((err) => {
         console.error(err);
         return;
@@ -88,10 +83,11 @@ exports.deleteNotificationOnUnlike = functions.firestore
 exports.createNotificationOnComment = functions.firestore
   .document("comments/{id}")
   .onCreate((snapshot) => {
-    db.doc(`/tweets/${snapshot.data().tweetId}`)
+    return db
+      .doc(`/tweets/${snapshot.data().tweetId}`)
       .get()
       .then((doc) => {
-        if (doc.exists) {
+        if (doc.exists && doc.data().handle !== snapshot.data().handle) {
           return db.doc(`/notifications/${snapshot.id}`).set({
             recipient: doc.data().handle,
             sender: snapshot.data().handle,
@@ -101,9 +97,6 @@ exports.createNotificationOnComment = functions.firestore
             createdAt: new Date().toISOString(),
           });
         }
-      })
-      .then(() => {
-        return;
       })
       .catch((err) => {
         console.error(err);
