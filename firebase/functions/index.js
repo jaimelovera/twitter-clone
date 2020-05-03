@@ -124,7 +124,20 @@ exports.onUserImageChange = functions.firestore
             const tweet = db.doc(`/tweets/${doc.id}`);
             batch.update(tweet, { userImage: change.after.data().imageUrl });
           });
+          return db
+            .collection("comments")
+            .where("handle", "==", change.before.data().handle)
+            .get();
+        })
+        .then((data) => {
+          data.forEach((doc) => {
+            const comment = db.doc(`/comments/${doc.id}`);
+            batch.update(comment, { userImage: change.after.data().imageUrl });
+          });
           return batch.commit();
+        })
+        .catch((err) => {
+          console.error(err);
         });
     } else {
       return true;
