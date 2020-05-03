@@ -3,12 +3,14 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import LogoIcon from "../images/twitter-logo.png";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // Material UI stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = {
   form: {
@@ -27,12 +29,16 @@ const styles = {
     margin: "10px auto 10px auto",
   },
   button: {
-    marginTop: 20,
+    margin: "20px auto 20px auto",
+    position: "relative",
   },
   customError: {
     color: "red",
     fontSize: "0.8rem",
     marginTop: 10,
+  },
+  progress: {
+    position: "absolute",
   },
 };
 
@@ -126,9 +132,17 @@ class login extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
+              disabled={loading}
             >
               Login
+              {loading && (
+                <CircularProgress size={30} className={classes.progress} />
+              )}
             </Button>
+            <br />
+            <small>
+              dont have an account ? sign up <Link to="/signup">here</Link>
+            </small>
           </form>
         </Grid>
         <Grid item sm />
