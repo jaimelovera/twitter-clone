@@ -8,7 +8,7 @@ exports.getAllTweets = (req, res) => {
       let tweets = [];
       data.forEach((doc) => {
         tweets.push({
-          tweetID: doc.id,
+          tweetId: doc.id,
           handle: doc.data().handle,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
