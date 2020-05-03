@@ -40,23 +40,28 @@ let db = {
       createdAt: "2020-04-22T14:48:28.015Z",
     },
   ],
-  userDetails: [
+};
+
+const userDetails = {
+  // Redux data
+  credentials: {
+    userId: "N43KJ5H43KJHREW4J5H3JWMERHB",
+    email: "user@gmail.com",
+    handle: "user",
+    createdAt: "2019-03-15T10:59:52.798Z",
+    imageUrl: "image/dsfsdkfghskdfgs/dgfdhfgdh",
+    bio: "Hello, my name is user.",
+    website: "https://user.com",
+    location: "San Diego, CA",
+  },
+  likes: [
     {
-      //Redux data
-      credentials: {
-        userId: "rgh589h59v8n985gh59gh",
-        email: "jaime@gmail.com",
-        handle: "jaime",
-        createdAt: "timestamp",
-        imageUrl: "image/...ggewhgef.jpeg",
-        bio: "Hello, my name is jaime.",
-        website: "https://jaimelovera.com",
-        location: "California, United States",
-      },
-      likes: [
-        { handle: "user", postId: "gwregerg45h46h9845yhg" },
-        { handle: "user", postId: "gwrefouydo7xo7fou645yhg" },
-      ],
+      handle: "user",
+      tweetId: "hh7O5oWfWucVzGbHH2pa",
+    },
+    {
+      handle: "user",
+      tweetId: "3IOnFoQexRcofs5OhBXO",
     },
   ],
 };
