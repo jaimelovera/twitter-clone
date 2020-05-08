@@ -26,8 +26,9 @@ const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
-    //window.location.href = "/login";
     authenticated = false;
+    localStorage.removeItem("FBIdToken");
+    window.location.href = "/login";
   } else {
     authenticated = true;
   }
