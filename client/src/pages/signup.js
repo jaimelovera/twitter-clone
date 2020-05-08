@@ -71,7 +71,7 @@ class signup extends Component {
           <img
             src={LogoIcon}
             className={classes.logoImage}
-            alt="Twitter Logo Image"
+            alt="Twitter Logo"
           />
           <Typography variant="h1" className={classes.pageTitle}>
             Signup
