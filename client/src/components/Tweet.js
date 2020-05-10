@@ -16,8 +16,8 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    height: "auto",
-    width: 120,
+    height: 140,
+    width: 140,
   },
   content: {
     padding: 25,
