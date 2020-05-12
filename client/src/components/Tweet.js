@@ -16,7 +16,7 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    height: 130,
+    height: 125,
     width: "auto",
     maxWidth: 130,
   },
