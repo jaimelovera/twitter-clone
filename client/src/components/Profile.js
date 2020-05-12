@@ -127,14 +127,6 @@ class Profile extends Component {
                 @{handle}
               </MuiLink>
               <hr />
-              {bio && <Typography variant="body2">{bio}</Typography>}
-              <hr />
-              {location && (
-                <Fragment>
-                  <LocationOn color="primary" /> <span>{location}</span>
-                  <hr />
-                </Fragment>
-              )}
               {website && (
                 <Fragment>
                   <LinkIcon color="primary" />
@@ -145,7 +137,16 @@ class Profile extends Component {
                   <hr />
                 </Fragment>
               )}
-              <CalendarToday color="primray" />{" "}
+              <hr />
+              {bio && <Typography variant="body2">{bio}</Typography>}
+              <hr />
+              {location && (
+                <Fragment>
+                  <LocationOn color="black" /> <span>{location}</span>
+                  <hr />
+                </Fragment>
+              )}
+              <CalendarToday color="black" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
             <Tooltip title="Logout" placement="top">
