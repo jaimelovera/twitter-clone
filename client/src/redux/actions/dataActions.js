@@ -7,13 +7,35 @@ export const getTweets = () => (dispatch) => {
   axios
     .get("/tweets")
     .then((res) => {
-      dispatch({ type: SET_TWEET, payload: res.data });
+      dispatch({ type: SET_TWEETS, payload: res.data });
     })
     .catch((err) => {
-      dispatch({ type: SET_TWEET, payload: [] });
+      dispatch({ type: SET_TWEETS, payload: [] });
     });
 };
 
 // Like a tweets
+export const likeTweet = (tweetId) => (dispatch) => {
+  axios
+    .get(`/tweet/${tweetId}/like`)
+    .then((res) => {
+      dispatch({
+        type: LIKE_TWEET,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log(err));
+};
 
 // Unlike a tweet
+export const unlikeTweet = (tweetId) => (dispatch) => {
+  axios
+    .get(`/tweet/${tweetId}/unlike`)
+    .then((res) => {
+      dispatch({
+        type: UNLIKE_TWEET,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log(err));
+};
