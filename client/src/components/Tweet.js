@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
+import DeleteTweet from "./DeleteTweet";
 
 // Material-UI Stuff
 import Card from "@material-ui/core/Card";
@@ -23,13 +24,13 @@ import { likeTweet, unlikeTweet } from "../redux/actions/dataActions";
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
   image: {
-    height: 125,
-    width: "auto",
-    maxWidth: 130,
+    height: "auto",
+    width: 115,
   },
   content: {
     padding: 25,
@@ -71,7 +72,10 @@ class Tweet extends Component {
         likeCount,
         commentCount,
       },
-      user: { authenticated },
+      user: {
+        authenticated,
+        credentials: { handle: userHandle },
+      },
     } = this.props;
 
     const likeButton = !authenticated ? (
@@ -90,6 +94,11 @@ class Tweet extends Component {
       </MyButton>
     );
 
+    const deleteButton =
+      authenticated && handle === userHandle ? (
+        <DeleteTweet tweetId={tweetId} />
+      ) : null;
+
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -107,6 +116,7 @@ class Tweet extends Component {
           >
             {handle}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>

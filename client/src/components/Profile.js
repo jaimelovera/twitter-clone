@@ -38,9 +38,8 @@ const styles = (theme) => ({
       },
     },
     "& .profile-image": {
+      height: "auto",
       width: 150,
-      height: 150,
-      maxWidth: "100%",
       borderRadius: "50%",
     },
     "& .profile-details": {
@@ -143,11 +142,11 @@ class Profile extends Component {
               <hr />
               {location && (
                 <Fragment>
-                  <LocationOn color="black" /> <span>{location}</span>
+                  <LocationOn color="inherit" /> <span>{location}</span>
                   <hr />
                 </Fragment>
               )}
-              <CalendarToday color="black" />{" "}
+              <CalendarToday color="inherit" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
             <MyButton tip="Logout" onClick={this.handleLogout}>

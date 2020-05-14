@@ -1,4 +1,10 @@
-import { SET_TWEETS, LOADING_DATA, LIKE_TWEET, UNLIKE_TWEET } from "../types";
+import {
+  SET_TWEETS,
+  LOADING_DATA,
+  LIKE_TWEET,
+  UNLIKE_TWEET,
+  DELETE_TWEET,
+} from "../types";
 import axios from "axios";
 
 // Get all tweets
@@ -36,6 +42,15 @@ export const unlikeTweet = (tweetId) => (dispatch) => {
         type: UNLIKE_TWEET,
         payload: res.data,
       });
+    })
+    .catch((err) => console.log(err));
+};
+
+export const deleteTweet = (tweetId) => (dispatch) => {
+  axios
+    .delete(`/tweet/${tweetId}`)
+    .then(() => {
+      dispatch({ type: DELETE_TWEET, payload: tweetId });
     })
     .catch((err) => console.log(err));
 };

@@ -1,5 +1,10 @@
-import { SET_TWEETS, LIKE_TWEET, UNLIKE_TWEET, LOADING_DATA } from "../types";
-import { DialogActions } from "@material-ui/core";
+import {
+  SET_TWEETS,
+  LIKE_TWEET,
+  UNLIKE_TWEET,
+  LOADING_DATA,
+  DELETE_TWEET,
+} from "../types";
 
 const initialState = {
   tweets: [],
@@ -26,6 +31,15 @@ export default function (state = initialState, action) {
         (tweet) => tweet.tweetId === action.payload.tweetId
       );
       state.tweets[index] = action.payload;
+      return {
+        ...state,
+      };
+    case DELETE_TWEET:
+      console.log("hello i am here!");
+      let tweetIndex = state.tweets.findIndex(
+        (tweet) => tweet.tweetId === action.payload
+      );
+      state.tweets.splice(tweetIndex, 1);
       return {
         ...state,
       };
