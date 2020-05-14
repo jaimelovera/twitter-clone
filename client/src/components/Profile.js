@@ -38,8 +38,8 @@ const styles = (theme) => ({
       },
     },
     "& .profile-image": {
-      height: "auto",
-      width: 150,
+      maxWidth: 220,
+      maxHeight: 220,
       borderRadius: "50%",
     },
     "& .profile-details": {

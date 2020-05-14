@@ -29,8 +29,8 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    height: "auto",
-    width: 115,
+    maxWidth: 125,
+    maxHeight: 200,
   },
   content: {
     padding: 25,
