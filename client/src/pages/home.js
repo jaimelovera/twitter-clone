@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
-import Tweet from "../components/Tweet";
-import Profile from "../components/Profile";
+import Tweet from "../components/tweet/Tweet";
+import Profile from "../components/profile/Profile";
 
 import { connect } from "react-redux";
 import { getTweets } from "../redux/actions/dataActions";
