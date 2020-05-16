@@ -6,6 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
 import DeleteTweet from "./DeleteTweet";
+import TweetDialog from "./TweetDialog";
 
 // Material-UI Stuff
 import Card from "@material-ui/core/Card";
@@ -127,6 +128,7 @@ class Tweet extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} comments</span>
+          <TweetDialog tweetId={tweetId} handle={handle} />
         </CardContent>
       </Card>
     );
