@@ -6,6 +6,7 @@ import {
   LOADING_DATA,
   DELETE_TWEET,
   POST_TWEET,
+  SUBMIT_COMMENT,
 } from "../types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+  let index;
   switch (action.type) {
     case LOADING_DATA:
       return {
@@ -34,22 +36,21 @@ export default function (state = initialState, action) {
       };
     case LIKE_TWEET:
     case UNLIKE_TWEET:
-      let index = state.tweets.findIndex(
+      index = state.tweets.findIndex(
         (tweet) => tweet.tweetId === action.payload.tweetId
       );
       state.tweets[index] = action.payload;
       if (state.tweet.tweetId === action.payload.tweetId) {
-        state.tweet = action.payload;
+        state.tweet = { ...state.tweet, ...action.payload };
       }
       return {
         ...state,
       };
     case DELETE_TWEET:
-      console.log("hello i am here!");
-      let tweetIndex = state.tweets.findIndex(
+      index = state.tweets.findIndex(
         (tweet) => tweet.tweetId === action.payload
       );
-      state.tweets.splice(tweetIndex, 1);
+      state.tweets.splice(index, 1);
       return {
         ...state,
       };
@@ -57,6 +58,22 @@ export default function (state = initialState, action) {
       return {
         ...state,
         tweets: [action.payload, ...state.tweets],
+      };
+    case SUBMIT_COMMENT:
+      index = state.tweets.findIndex(
+        (tweet) => tweet.tweetId === action.payload.tweetId
+      );
+      state.tweets[index] = {
+        ...state.tweets[index],
+        commentCount: state.tweets[index].commentCount + 1,
+      };
+      return {
+        ...state,
+        tweet: {
+          ...state.tweet,
+          comments: [action.payload, ...state.tweet.comments],
+          commentCount: state.tweet.commentCount + 1,
+        },
       };
     default:
       return state;

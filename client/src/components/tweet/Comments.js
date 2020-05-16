@@ -30,7 +30,6 @@ class Comments extends Component {
           const { body, createdAt, userImage, handle } = comment;
           return (
             <Fragment key={createdAt}>
-              {index === 0 && <hr className={classes.visibleSeparator} />}
               <Grid item sm={12}>
                 <Grid container>
                   <Grid item sm={2}>
@@ -50,6 +49,7 @@ class Comments extends Component {
                       >
                         {handle}
                       </Typography>
+                      <br />
                       <Typography variant="body2" variant="textSecondary">
                         {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                       </Typography>

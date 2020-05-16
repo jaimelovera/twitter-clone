@@ -10,6 +10,7 @@ import {
   CLEAR_ERRORS,
   SET_TWEET,
   STOP_LOADING_UI,
+  SUBMIT_COMMENT,
 } from "../types";
 import axios from "axios";
 
@@ -45,7 +46,7 @@ export const postTweet = (newTweet) => (dispatch) => {
     .post("/tweet", newTweet)
     .then((res) => {
       dispatch({ type: POST_TWEET, payload: res.data });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response.data });
@@ -76,6 +77,22 @@ export const unlikeTweet = (tweetId) => (dispatch) => {
       });
     })
     .catch((err) => console.log(err));
+};
+
+// Submit a comment
+export const submitComment = (tweetId, commentData) => (dispatch) => {
+  axios
+    .post(`/tweet/${tweetId}/comment`, commentData)
+    .then((res) => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      dispatch({ type: SET_ERRORS, payload: err.response.data });
+    });
 };
 
 // Delete a tweet

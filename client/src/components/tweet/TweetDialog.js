@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 //Material-UI Stuff
 import Dialog from "@material-ui/core/Dialog";
@@ -21,7 +22,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { getTweet } from "../../redux/actions/dataActions";
+import { getTweet, clearErrors } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -37,7 +38,6 @@ const styles = (theme) => ({
   closeButton: {
     position: "absolute",
     left: "90%",
-    top: "6%",
   },
   expandButton: {
     position: "absolute",
@@ -62,6 +62,7 @@ class TweetDialog extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.props.clearErrors();
   };
 
   render() {
@@ -111,6 +112,8 @@ class TweetDialog extends Component {
           </MyButton>
           <span>{commentCount} comments</span>
         </Grid>
+        <hr className={classes.invisibleSeparator} />
+        <CommentForm tweetId={tweetId} />
         <Comments comments={comments} />
       </Grid>
     );
@@ -146,6 +149,7 @@ class TweetDialog extends Component {
 }
 
 TweetDialog.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   getTweet: PropTypes.func.isRequired,
   tweetId: PropTypes.string.isRequired,
   handle: PropTypes.string.isRequired,
@@ -160,6 +164,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getTweet,
+  clearErrors,
 };
 
 export default connect(

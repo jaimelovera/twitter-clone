@@ -18,3 +18,4 @@ export const LIKE_TWEET = "LIKE_TWEET";
 export const UNLIKE_TWEET = "UNLIKE_TWEET";
 export const DELETE_TWEET = "DELETE_TWEET";
 export const POST_TWEET = "POST_TWEET";
+export const SUBMIT_COMMENT = "SUBMIT_COMMENT";
