@@ -40,6 +40,15 @@ const styles = (theme) => ({
     left: "90%",
     top: "6%",
   },
+  expandButton: {
+    position: "absolute",
+    left: "90%",
+  },
+  spinnerDiv: {
+    textAlign: "center",
+    marginTop: 50,
+    marginBottom: 50,
+  },
 });
 
 class TweetDialog extends Component {
@@ -72,7 +81,9 @@ class TweetDialog extends Component {
     } = this.props;
 
     const dialogMarkup = loading ? (
-      <CircularProgress size={200} />
+      <div className={classes.spinnerDiv}>
+        <CircularProgress size={200} thickness={2} />
+      </div>
     ) : (
       <Grid container>
         <Grid item sm={5}>
