@@ -9,7 +9,6 @@ import TextField from "@material-ui/core/TextField";
 
 import { connect } from "react-redux";
 import { submitComment } from "../../redux/actions/dataActions";
-import { SET_ERRORS } from "../../redux/types";
 
 const styles = (theme) => ({
   ...theme.spreadThis,

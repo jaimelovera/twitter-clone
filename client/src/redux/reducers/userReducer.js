@@ -8,7 +8,7 @@ import {
 } from "../types";
 
 const initialState = {
-  authendicated: false,
+  authenticated: false,
   loading: false,
   credentials: {},
   likes: [],
