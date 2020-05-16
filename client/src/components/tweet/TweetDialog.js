@@ -5,6 +5,7 @@ import MyButton from "../../util/MyButton";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import Comments from "./Comments";
 
 //Material-UI Stuff
 import Dialog from "@material-ui/core/Dialog";
@@ -24,10 +25,6 @@ import { getTweet } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
-  invisibleSeparator: {
-    border: "none",
-    margin: 4,
-  },
   profileImage: {
     maxWidth: 200,
     height: 200,
@@ -78,6 +75,7 @@ class TweetDialog extends Component {
         commentCount,
         userImage,
         handle,
+        comments,
       },
       ui: { loading },
     } = this.props;
@@ -113,6 +111,7 @@ class TweetDialog extends Component {
           </MyButton>
           <span>{commentCount} comments</span>
         </Grid>
+        <Comments comments={comments} />
       </Grid>
     );
     return (
