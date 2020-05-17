@@ -160,9 +160,7 @@ exports.login = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res
-        .status(403)
-        .json({ general: "Password is incorrect, please try again." });
+      return res.status(403).json({ general: err.message });
     });
 };
 

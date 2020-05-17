@@ -80,6 +80,10 @@ export default function (state = initialState, action) {
       index = state.tweet.comments.findIndex(
         (comment) => comment.commentId === action.payload
       );
+      state.tweets[index] = {
+        ...state.tweets[index],
+        commentCount: state.tweets[index].commentCount - 1,
+      };
       state.tweet.comments.splice(index, 1);
       return {
         ...state,

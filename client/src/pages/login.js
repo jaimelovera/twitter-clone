@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 // Redux stuff
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
+import { clearErrors } from "../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -29,6 +30,8 @@ class login extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.ui.errors) {
       this.setState({ errors: nextProps.ui.errors });
+    } else {
+      this.setState({ errors: {} });
     }
   }
 
@@ -42,6 +45,7 @@ class login extends Component {
   };
 
   handleChange = (e) => {
+    this.props.clearErrors();
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -123,6 +127,7 @@ class login extends Component {
 login.propTypes = {
   classes: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
 };
@@ -134,6 +139,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   loginUser,
+  clearErrors,
 };
 
 export default connect(
