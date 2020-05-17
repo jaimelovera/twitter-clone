@@ -60,14 +60,13 @@ exports.signup = (req, res) => {
       if (err.code === "auth/email-already-in-use") {
         return res.status(400).json({ email: "email is already in use" });
       } else {
-        return res
-          .status(500)
-          .json({ general: "Something went wrong, please try again" });
+        return res.status(400).json({ general: err.message });
       }
     });
 };
 
 // Delete logedin users account
+// Deletes all accociated collections of user also.
 exports.deleteAccount = (req, res) => {
   if (req.user.uid === req.params.uid) {
     const handle = req.user.handle;
