@@ -12,20 +12,29 @@ import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 // Redux
 import { connect } from "react-redux";
-import { deleteTweet } from "../../redux/actions/dataActions";
+import { deleteComment } from "../../redux/actions/dataActions";
 
 const styles = {
   deleteButton: {
-    position: "absolute",
-    left: "90%",
-    top: "10%",
+    left: "85%",
   },
 };
 
-class DeleteTweet extends Component {
+class DeleteComment extends Component {
   state = {
     open: false,
+    commentId: "",
   };
+
+  componentDidMount() {
+    this.setState({ commentId: this.props.commentId });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.commentId !== this.state.commentId) {
+      this.setState({ commentId: nextProps.commentId });
+    }
+  }
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -35,8 +44,8 @@ class DeleteTweet extends Component {
     this.setState({ open: false });
   };
 
-  deleteTweet = () => {
-    this.props.deleteTweet(this.props.tweetId);
+  deleteComment = () => {
+    this.props.deleteComment(this.props.commentId);
     this.setState({ open: false });
   };
 
@@ -59,13 +68,13 @@ class DeleteTweet extends Component {
           maxWidth="sm"
         >
           <DialogTitle>
-            Are you sure you want to delete this tweet ?
+            Are you sure you want to delete this comment ?
           </DialogTitle>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.deleteTweet} color="secondary">
+            <Button onClick={this.deleteComment} color="secondary">
               Delete
             </Button>
           </DialogActions>
@@ -75,10 +84,12 @@ class DeleteTweet extends Component {
   }
 }
 
-DeleteTweet.propTypes = {
-  deleteTweet: PropTypes.func.isRequired,
+DeleteComment.propTypes = {
+  deleteComment: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  tweetId: PropTypes.string.isRequired,
+  commentId: PropTypes.string.isRequired,
 };
 
-export default connect(null, { deleteTweet })(withStyles(styles)(DeleteTweet));
+export default connect(null, { deleteComment })(
+  withStyles(styles)(DeleteComment)
+);

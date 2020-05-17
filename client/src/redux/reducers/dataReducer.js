@@ -7,6 +7,7 @@ import {
   DELETE_TWEET,
   POST_TWEET,
   SUBMIT_COMMENT,
+  DELETE_COMMENT,
 } from "../types";
 
 const initialState = {
@@ -73,6 +74,19 @@ export default function (state = initialState, action) {
           ...state.tweet,
           comments: [action.payload, ...state.tweet.comments],
           commentCount: state.tweet.commentCount + 1,
+        },
+      };
+    case DELETE_COMMENT:
+      index = state.tweet.comments.findIndex(
+        (comment) => comment.commentId === action.payload
+      );
+      state.tweet.comments.splice(index, 1);
+      return {
+        ...state,
+        tweet: {
+          ...state.tweet,
+          comments: [...state.tweet.comments],
+          commentCount: state.tweet.commentCount - 1,
         },
       };
     default:

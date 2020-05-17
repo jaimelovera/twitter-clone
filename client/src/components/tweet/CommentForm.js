@@ -75,7 +75,7 @@ CommentForm.propTypes = {
   submitComment: PropTypes.func.isRequired,
   ui: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  tweetId: PropTypes.object.isRequired,
+  tweetId: PropTypes.string.isRequired,
   authenticated: PropTypes.bool.isRequired,
 };
 

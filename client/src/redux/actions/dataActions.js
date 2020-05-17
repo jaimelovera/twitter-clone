@@ -11,6 +11,7 @@ import {
   SET_TWEET,
   STOP_LOADING_UI,
   SUBMIT_COMMENT,
+  DELETE_COMMENT,
 } from "../types";
 import axios from "axios";
 
@@ -84,6 +85,7 @@ export const submitComment = (tweetId, commentData) => (dispatch) => {
   axios
     .post(`/tweet/${tweetId}/comment`, commentData)
     .then((res) => {
+      console.log(res);
       dispatch({
         type: SUBMIT_COMMENT,
         payload: res.data,
@@ -101,6 +103,16 @@ export const deleteTweet = (tweetId) => (dispatch) => {
     .delete(`/tweet/${tweetId}`)
     .then(() => {
       dispatch({ type: DELETE_TWEET, payload: tweetId });
+    })
+    .catch((err) => console.log(err));
+};
+
+// Delete a comment
+export const deleteComment = (commentId) => (dispatch) => {
+  axios
+    .delete(`/comment/${commentId}`)
+    .then(() => {
+      dispatch({ type: DELETE_COMMENT, payload: commentId });
     })
     .catch((err) => console.log(err));
 };

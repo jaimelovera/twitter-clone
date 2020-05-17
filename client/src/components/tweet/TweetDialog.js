@@ -122,7 +122,7 @@ class TweetDialog extends Component {
           <Typography variant="body1">{body}</Typography>
           <LikeButton tweetId={tweetId} />
           <span>{likeCount} likes</span>
-          <MyButton tip="comments">
+          <MyButton tip="Comments">
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} comments</span>

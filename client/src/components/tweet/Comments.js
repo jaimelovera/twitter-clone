@@ -3,10 +3,14 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import DeleteComment from "./DeleteComment";
 
 //Material-UI stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+
+// Redux
+import { connect } from "react-redux";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -22,7 +26,15 @@ const styles = (theme) => ({
 
 class Comments extends Component {
   render() {
-    const { comments, classes } = this.props;
+    const {
+      comments,
+      classes,
+      user: {
+        authenticated,
+        credentials: { handle: userHandle },
+      },
+    } = this.props;
+
     return (
       <Grid container>
         {comments.map((comment, index) => {
@@ -48,6 +60,11 @@ class Comments extends Component {
                       >
                         {handle}
                       </Typography>
+
+                      {authenticated && handle === userHandle ? (
+                        <DeleteComment commentId={comment.commentId} />
+                      ) : null}
+
                       <Typography variant="body2" color="textSecondary">
                         {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                       </Typography>
@@ -69,7 +86,12 @@ class Comments extends Component {
 }
 
 Comments.propTypes = {
+  user: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(Comments);
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Comments));

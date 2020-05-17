@@ -70,7 +70,7 @@ exports.getTweet = (req, res) => {
     .then((data) => {
       tweetData.comments = [];
       data.forEach((doc) => {
-        tweetData.comments.push(doc.data());
+        tweetData.comments.push({ commentId: doc.id, ...doc.data() });
       });
       return res.json(tweetData);
     })
@@ -117,6 +117,7 @@ exports.commentOnTweet = (req, res) => {
 // Delete a comment
 exports.deleteComment = (req, res) => {
   const document = db.doc(`/comments/${req.params.commentId}`);
+  let tweetId;
   document
     .get()
     .then((doc) => {
@@ -126,8 +127,15 @@ exports.deleteComment = (req, res) => {
       if (doc.data().handle !== req.user.handle) {
         return res.status(403).json({ error: "Unauthorized" });
       } else {
+        tweetId = doc.data().tweetId;
         return document.delete();
       }
+    })
+    .then(() => {
+      return db.doc(`/tweets/${tweetId}`).get();
+    })
+    .then((doc) => {
+      return doc.ref.update({ commentCount: doc.data().commentCount - 1 });
     })
     .then(() => {
       res.json({ message: "Comment deleted succesfully" });

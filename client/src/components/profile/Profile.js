@@ -68,7 +68,7 @@ class Profile extends Component {
                 onChange={this.handleImageChange}
               />
               <MyButton
-                tip="Edit profile picture"
+                tip="Change Profile Picture"
                 onClick={this.handleEditPicture}
                 btnClassName="button"
               >
