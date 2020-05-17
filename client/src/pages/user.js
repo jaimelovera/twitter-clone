@@ -4,6 +4,8 @@ import axios from "axios";
 import Tweet from "../components/tweet/Tweet";
 import Grid from "@material-ui/core/Grid";
 import StaticProfile from "../components/profile/StaticProfile";
+import TweetSkeleton from "../util/TweetSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -33,7 +35,7 @@ class user extends Component {
     const { tweetIdParam } = this.state;
 
     let tweetsMarkup = loading ? (
-      <p>Loading data...</p>
+      <TweetSkeleton />
     ) : tweets === null ? (
       <p>No tweets from this user</p>
     ) : !tweetIdParam ? (
@@ -55,7 +57,7 @@ class user extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <p>Loading profile...</p>
+            <ProfileSkeleton />
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}

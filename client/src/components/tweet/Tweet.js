@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import MyButton from "../../util/MyButton";
 import DeleteTweet from "./DeleteTweet";
 import TweetDialog from "./TweetDialog";
 import LikeButton from "./LikeButton";
@@ -14,9 +13,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
-//Icons
-import ChatIcon from "@material-ui/icons/Chat";
 
 // Redux
 import { connect } from "react-redux";
@@ -28,8 +24,10 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    maxWidth: 125,
-    maxHeight: 200,
+    height: 80,
+    width: 80,
+    borderRadius: "50%",
+    margin: "30px 0 0 30px",
   },
   content: {
     padding: 25,
@@ -85,15 +83,12 @@ class Tweet extends Component {
           <Typography variant="body1">{body}</Typography>
           <LikeButton tweetId={tweetId} />
           <span>{likeCount} Likes</span>
-          <MyButton tip="comments">
-            <ChatIcon color="primary" />
-          </MyButton>
-          <span>{commentCount} comments</span>
           <TweetDialog
             tweetId={tweetId}
             handle={handle}
             openDialog={this.props.openDialog}
           />
+          <span>{commentCount} comments</span>
         </CardContent>
       </Card>
     );

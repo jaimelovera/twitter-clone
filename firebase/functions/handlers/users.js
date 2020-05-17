@@ -67,6 +67,78 @@ exports.signup = (req, res) => {
     });
 };
 
+// Delete logedin users account
+exports.deleteAccount = (req, res) => {
+  if (req.user.uid === req.params.uid) {
+    const handle = req.user.handle;
+    const batch = db.batch();
+    admin
+      .auth()
+      .deleteUser(req.params.uid)
+      .then(() => {
+        db.collection("users")
+          .where("handle", "==", handle)
+          .get()
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/users/${doc.id}`));
+            });
+            return db.collection("tweets").where("handle", "==", handle).get();
+          })
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/tweets/${doc.id}`));
+            });
+            return db
+              .collection("notifications")
+              .where("sender", "==", handle)
+              .get();
+          })
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/notifications/${doc.id}`));
+            });
+            return db
+              .collection("notifications")
+              .where("recipient", "==", handle)
+              .get();
+          })
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/notifications/${doc.id}`));
+            });
+            return db.collection("likes").where("handle", "==", handle).get();
+          })
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/likes/${doc.id}`));
+            });
+            return db
+              .collection("comments")
+              .where("handle", "==", handle)
+              .get();
+          })
+          .then((data) => {
+            data.forEach((doc) => {
+              batch.delete(db.doc(`/comments/${doc.id}`));
+            });
+            return batch.commit();
+          });
+      })
+      .then(() => {
+        return res.json({ message: "Successfully deleted user" });
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+  } else {
+    return res
+      .status(500)
+      .json({ message: "Not authorized to delete this account" });
+  }
+};
+
 // Log user in.
 exports.login = (req, res) => {
   const user = {

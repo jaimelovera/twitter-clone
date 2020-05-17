@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import EditDetails from "./EditDetails";
 import MyButton from "../../util/MyButton";
+import ProfileSkeleton from "../../util/ProfileSkeleton";
 
 // Material-UI Stuff
 import Button from "@material-ui/core/Button";
@@ -24,49 +25,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = (theme) => ({
-  paper: {
-    padding: 20,
-  },
-  profile: {
-    "& .image-wrapper": {
-      textAlign: "center",
-      position: "relative",
-      "& button": {
-        position: "absolute",
-        top: "80%",
-        left: "70%",
-      },
-    },
-    "& .profile-image": {
-      maxWidth: 220,
-      maxHeight: 220,
-      borderRadius: "50%",
-    },
-    "& .profile-details": {
-      textAlign: "center",
-      "& span, svg": {
-        verticalAlign: "middle",
-      },
-      "& a": {
-        color: theme.palette.primary.main,
-      },
-    },
-    "& hr": {
-      border: "none",
-      margin: "0 0 10px 0",
-    },
-    "& svg.button": {
-      "&:hover": {
-        cursor: "pointer",
-      },
-    },
-  },
-  buttons: {
-    textAlign: "center",
-    "& a": {
-      margin: "20px 10px",
-    },
-  },
+  ...theme.spreadThis,
 });
 
 class Profile extends Component {
@@ -181,7 +140,7 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <p>Loading...</p>
+      <ProfileSkeleton />
     );
 
     return profileMarkup;

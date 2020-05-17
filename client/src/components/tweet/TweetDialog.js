@@ -17,7 +17,6 @@ import Typography from "@material-ui/core/Typography";
 
 // Icons
 import CloseIcon from "@material-ui/icons/Close";
-import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import ChatIcon from "@material-ui/icons/Chat";
 
 // Redux stuff
@@ -27,19 +26,16 @@ import { getTweet, clearErrors } from "../../redux/actions/dataActions";
 const styles = (theme) => ({
   ...theme.spreadThis,
   profileImage: {
-    maxWidth: 200,
-    height: 200,
+    height: 180,
+    width: 180,
     borderRadius: "50%",
+    margin: "20px 0 0 20px",
     objectFit: "cover",
   },
   dialogContent: {
     padding: 20,
   },
   closeButton: {
-    position: "absolute",
-    left: "90%",
-  },
-  expandButton: {
     position: "absolute",
     left: "90%",
   },
@@ -138,12 +134,8 @@ class TweetDialog extends Component {
     );
     return (
       <Fragment>
-        <MyButton
-          onClick={this.handleOpen}
-          tip="Expand tweet"
-          tipClassName={classes.expandButton}
-        >
-          <UnfoldMore color="primary" />
+        <MyButton onClick={this.handleOpen} tip="Comments">
+          <ChatIcon color="primary" />
         </MyButton>
         <Dialog
           open={this.state.open}

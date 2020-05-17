@@ -1,8 +1,10 @@
 const functions = require("firebase-functions");
 const app = require("express")();
 const { db } = require("./util/firebase");
-
 const FBAuth = require("./util/fbAuth");
+
+const cors = require("cors");
+app.use(cors());
 
 const {
   getAllTweets,
@@ -12,6 +14,7 @@ const {
   likeTweet,
   unlikeTweet,
   deleteTweet,
+  deleteComment,
 } = require("./handlers/tweets");
 const {
   signup,
@@ -21,6 +24,7 @@ const {
   getAuthenticatedUser,
   getUserDetails,
   markNotificationsRead,
+  deleteAccount,
 } = require("./handlers/users");
 
 // Tweets routes.
@@ -31,6 +35,7 @@ app.delete("/tweet/:tweetId", FBAuth, deleteTweet);
 app.get("/tweet/:tweetId/like", FBAuth, likeTweet);
 app.get("/tweet/:tweetId/unlike", FBAuth, unlikeTweet);
 app.post("/tweet/:tweetId/comment", FBAuth, commentOnTweet);
+app.delete("/comment/:commentId", FBAuth, deleteComment);
 
 // Users routes
 app.post("/signup", signup);
@@ -40,6 +45,7 @@ app.post("/user", FBAuth, addUserDetails);
 app.get("/user", FBAuth, getAuthenticatedUser);
 app.get("/user/:handle", getUserDetails);
 app.post("/notifications", FBAuth, markNotificationsRead);
+app.post("/user/delete/:uid", FBAuth, deleteAccount);
 
 /* This app function will be a container for all of our cloud functions.
    It will add "/api" to all of our api routes */

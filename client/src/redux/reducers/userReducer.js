@@ -5,6 +5,7 @@ import {
   LOADING_USER,
   LIKE_TWEET,
   UNLIKE_TWEET,
+  MARK_NOTIFICATIONS_READ,
 } from "../types";
 
 const initialState = {
@@ -19,20 +20,21 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case SET_AUTHENTICATED:
       return {
-        authenticated: true,
         ...state,
+        authenticated: true,
       };
     case SET_UNAUTHENTICATED:
       return initialState;
     case SET_USER:
       return {
-        authenticated: true,
         ...action.payload,
+        authenticated: true,
+        loading: false,
       };
     case LOADING_USER:
       return {
         ...state,
-        loading: false,
+        loading: true,
       };
     case LIKE_TWEET:
       return {
@@ -51,6 +53,11 @@ export default function (state = initialState, action) {
         likes: state.likes.filter(
           (like) => like.tweetId !== action.payload.tweetId
         ),
+      };
+    case MARK_NOTIFICATIONS_READ:
+      state.notifications.forEach((not) => (not.read = true));
+      return {
+        ...state,
       };
     default:
       return state;
