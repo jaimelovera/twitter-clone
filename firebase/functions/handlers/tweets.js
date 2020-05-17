@@ -105,8 +105,8 @@ exports.commentOnTweet = (req, res) => {
     .then(() => {
       return db.collection("comments").add(newComment);
     })
-    .then(() => {
-      res.json(newComment);
+    .then((doc) => {
+      return res.json({ commentId: doc.id, ...newComment });
     })
     .catch((err) => {
       console.error(err);

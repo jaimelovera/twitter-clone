@@ -85,7 +85,6 @@ export const submitComment = (tweetId, commentData) => (dispatch) => {
   axios
     .post(`/tweet/${tweetId}/comment`, commentData)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: SUBMIT_COMMENT,
         payload: res.data,
