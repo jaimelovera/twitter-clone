@@ -9,6 +9,9 @@ import TweetSkeleton from "../util/TweetSkeleton";
 import { connect } from "react-redux";
 import { getTweets } from "../redux/actions/dataActions";
 
+// Material-UI Stuff
+import { useTheme } from "@material-ui/styles";
+
 class home extends Component {
   componentDidMount() {
     this.props.getTweets();
@@ -23,11 +26,14 @@ class home extends Component {
     );
 
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={0}>
         <Grid item xs={12} md={4}>
           <Profile />
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={1}>
+          <div style={{ width: 20, height: 20 }} />
+        </Grid>
+        <Grid item xs={12} md={7}>
           {recentTweetsMarkup}
         </Grid>
       </Grid>

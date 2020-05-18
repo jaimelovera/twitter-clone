@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
+import ResponsiveDialog from "../../util/ResponsiveDialog";
 
 //Material-UI Stuff
 import Dialog from "@material-ui/core/Dialog";
@@ -35,10 +36,7 @@ const styles = (theme) => ({
   dialogContent: {
     padding: 24,
   },
-  closeButton: {
-    position: "absolute",
-    left: "90%",
-  },
+  closeButton: {},
   spinnerDiv: {
     textAlign: "center",
     marginTop: 50,
@@ -105,8 +103,8 @@ class TweetDialog extends Component {
       </div>
     ) : (
       <Grid container direction="column">
-        <Grid container direction="row">
-          <Grid item sm={3}>
+        <Grid container direction="row" alignItems="center" justify="center">
+          <Grid item>
             <img
               src={userImage}
               alt="Profile"
@@ -141,29 +139,34 @@ class TweetDialog extends Component {
         <Comments comments={comments} />
       </Grid>
     );
+
     return (
       <Fragment>
         <MyButton onClick={this.handleOpen} tip="Comments">
           <ChatIcon color="primary" />
         </MyButton>
-        <Dialog
+        <ResponsiveDialog
           open={this.state.open}
           onClose={this.handleClose}
           fullWidth
           maxWidth="sm"
         >
-          <MyButton
-            tip="Close"
-            onClick={this.handleClose}
-            tipClassName={classes.closeButton}
-          >
-            <CloseIcon />
-          </MyButton>
+          <Grid container alignItems="flex-end" justify="flex-end">
+            <Grid item>
+              <MyButton
+                tip="Close"
+                onClick={this.handleClose}
+                tipClassName={classes.closeButton}
+              >
+                <CloseIcon />
+              </MyButton>
+            </Grid>
+          </Grid>
           <DialogContent className={classes.dialogContent}>
             {dialogMarkup}
             <hr className={classes.invisibleSeparator} />
           </DialogContent>
-        </Dialog>
+        </ResponsiveDialog>
       </Fragment>
     );
   }

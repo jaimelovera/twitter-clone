@@ -41,16 +41,16 @@ class Comments extends Component {
           const { body, createdAt, userImage, handle } = comment;
           return (
             <Fragment key={createdAt}>
-              <Grid item sm={12}>
+              <Grid item xs={12}>
                 <Grid container>
-                  <Grid item sm={2}>
+                  <Grid item xs={4} sm={2}>
                     <img
                       src={userImage}
                       alt="comment"
                       className={classes.commentImage}
                     />
                   </Grid>
-                  <Grid item sm={9}>
+                  <Grid item xs={8} sm={10}>
                     <div className={classes.commentData}>
                       <Typography
                         variant="h5"

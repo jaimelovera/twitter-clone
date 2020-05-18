@@ -16,7 +16,7 @@ import { deleteComment } from "../../redux/actions/dataActions";
 
 const styles = {
   deleteButton: {
-    left: "85%",
+    float: "right",
   },
 };
 
