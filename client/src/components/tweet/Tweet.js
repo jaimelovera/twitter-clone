@@ -61,12 +61,14 @@ class Tweet extends Component {
 
     return (
       <Card className={classes.card}>
-        <CardMedia
-          image={userImage}
-          component="img"
-          title="Profile Image"
-          className={classes.image}
-        />
+        <div style={{ width: 110, height: 110 }}>
+          <CardMedia
+            image={userImage}
+            component="img"
+            title="Profile Image"
+            className={classes.image}
+          />
+        </div>
         <CardContent className={classes.content}>
           <Typography
             variant="h5"
@@ -82,13 +84,13 @@ class Tweet extends Component {
           </Typography>
           <Typography variant="body1">{body}</Typography>
           <LikeButton tweetId={tweetId} />
-          <span>{likeCount} Likes</span>
+          {likeCount}
           <TweetDialog
             tweetId={tweetId}
             handle={handle}
             openDialog={this.props.openDialog}
           />
-          <span>{commentCount} comments</span>
+          {commentCount}
         </CardContent>
       </Card>
     );

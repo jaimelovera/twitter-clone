@@ -21,7 +21,7 @@ import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
-import EditIcon from "@material-ui/icons/Edit";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = (theme) => ({
@@ -72,7 +72,7 @@ class Profile extends Component {
                 onClick={this.handleEditPicture}
                 btnClassName="button"
               >
-                <EditIcon color="primary" />
+                <PhotoCameraIcon color="inherit" />
               </MyButton>
             </div>
             <hr />
@@ -82,16 +82,15 @@ class Profile extends Component {
                 to={`/users/${handle}`}
                 color="primary"
                 variant="h5"
+                style={{ textDecoration: "none" }}
               >
                 @{handle}
               </MuiLink>
               <hr />
               {website && (
                 <Fragment>
-                  <LinkIcon color="primary" />
                   <a href={website} target="_blank" rel="noopener noreferrer">
-                    {" "}
-                    {website}
+                    <LinkIcon color="primary" />
                   </a>
                   <hr />
                 </Fragment>
@@ -108,8 +107,17 @@ class Profile extends Component {
               <CalendarToday color="inherit" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
+            <hr
+              style={{
+                backgroundColor: "rgba(0,0,0,0.1)",
+                height: 2,
+                width: "100%",
+                marginTop: 15,
+                marginBottom: 2,
+              }}
+            />
             <MyButton tip="Logout" onClick={this.handleLogout}>
-              <KeyboardReturn color="primary" />
+              <KeyboardReturn color="inherit" />
             </MyButton>
             <EditDetails />
           </div>
@@ -117,7 +125,7 @@ class Profile extends Component {
       ) : (
         <Paper className={classes.paper}>
           <Typography variant="body2" align="center">
-            No profile found, please login again
+            No user found, login or signup to continue
           </Typography>
           <div className={classes.buttons}>
             <Button

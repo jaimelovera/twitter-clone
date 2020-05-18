@@ -5,7 +5,10 @@ import MyButton from "../../util/MyButton";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { editUserDetails } from "../../redux/actions/userActions";
+import {
+  editUserDetails,
+  deleteAccount,
+} from "../../redux/actions/userActions";
 
 // Material-ui stuff
 import Button from "@material-ui/core/Button";
@@ -13,6 +16,7 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 // Icons
@@ -31,6 +35,7 @@ class EditDetails extends Component {
     website: "",
     location: "",
     open: false,
+    openDeleteVerify: false,
   };
 
   mapUserDetailsToState = (credentials) => {
@@ -56,6 +61,18 @@ class EditDetails extends Component {
     this.setState({ open: false });
   };
 
+  handleDeleteAccountVerifyOpen = () => {
+    this.setState({ openDeleteVerify: true });
+  };
+
+  handleDeleteAccountVerifyClose = () => {
+    this.setState({ openDeleteVerify: false });
+  };
+
+  handleDeleteAccount = () => {
+    this.props.deleteAccount(this.props.credentials.userId);
+  };
+
   handleSubmit = () => {
     const userDetails = {
       bio: this.state.bio,
@@ -79,7 +96,7 @@ class EditDetails extends Component {
           onClick={this.handleOpen}
           btnClassName={classes.button}
         >
-          <EditIcon color="primary" />
+          <EditIcon color="inherit" />
         </MyButton>
         <Dialog
           open={this.state.open}
@@ -125,6 +142,39 @@ class EditDetails extends Component {
             </form>
           </DialogContent>
           <DialogActions>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={this.handleDeleteAccountVerifyOpen}
+            >
+              Delete Account
+            </Button>
+            <Dialog
+              open={this.state.openDeleteVerify}
+              onClose={this.handleDeleteAccountVerifyClose}
+              aria-labelledby="verify-delete-account"
+              aria-describedby="verify-user-wants-to-delete-account"
+            >
+              <DialogTitle id="verify-delete-account" style={{ color: "red" }}>
+                {"Delete your account?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="verify-user-wants-to-delete-account">
+                  This is permanent and can not be reversed.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={this.handleDeleteAccountVerifyClose}
+                  color="primary"
+                >
+                  No
+                </Button>
+                <Button onClick={this.handleDeleteAccount} color="primary">
+                  Yes
+                </Button>
+              </DialogActions>
+            </Dialog>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
@@ -147,6 +197,6 @@ const mapStateToProps = (state) => ({
   credentials: state.user.credentials,
 });
 
-export default connect(mapStateToProps, { editUserDetails })(
+export default connect(mapStateToProps, { editUserDetails, deleteAccount })(
   withStyles(styles)(EditDetails)
 );

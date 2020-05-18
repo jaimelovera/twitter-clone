@@ -66,24 +66,32 @@ exports.signup = (req, res) => {
 };
 
 // Delete logedin users account
-// Deletes all accociated collections of user also.
+// Deletes all accociated collections of user and updates
+// other users counts.
 exports.deleteAccount = (req, res) => {
   if (req.user.uid === req.params.uid) {
     const handle = req.user.handle;
     const batch = db.batch();
+    let imageFileName;
     admin
       .auth()
+      // Remove user from authentication.
       .deleteUser(req.params.uid)
+      // Remove user from users table.
       .then(() => {
         db.collection("users")
           .where("handle", "==", handle)
           .get()
           .then((data) => {
             data.forEach((doc) => {
+              if (doc.data().imageFileName) {
+                imageFileName = doc.data().imageFileName;
+              }
               batch.delete(db.doc(`/users/${doc.id}`));
             });
             return db.collection("tweets").where("handle", "==", handle).get();
           })
+          // Delete all tweets user made.
           .then((data) => {
             data.forEach((doc) => {
               batch.delete(db.doc(`/tweets/${doc.id}`));
@@ -93,6 +101,7 @@ exports.deleteAccount = (req, res) => {
               .where("sender", "==", handle)
               .get();
           })
+          // Delete all notifications this user had.
           .then((data) => {
             data.forEach((doc) => {
               batch.delete(db.doc(`/notifications/${doc.id}`));
@@ -102,26 +111,51 @@ exports.deleteAccount = (req, res) => {
               .where("recipient", "==", handle)
               .get();
           })
+          // Delete all outstanding notifications this user created for other users.
           .then((data) => {
             data.forEach((doc) => {
               batch.delete(db.doc(`/notifications/${doc.id}`));
             });
             return db.collection("likes").where("handle", "==", handle).get();
           })
+          // Delete all likes this user made.
           .then((data) => {
             data.forEach((doc) => {
               batch.delete(db.doc(`/likes/${doc.id}`));
+              // Find the tweet associated with this like and decrement the count.
+              const tweetDocument = db.doc(`/tweets/${doc.data().tweetId}`);
+              tweetDocument.get().then((doc) => {
+                const count = doc.data().likeCount;
+                tweetDocument.update({ likeCount: count - 1 });
+              });
             });
             return db
               .collection("comments")
               .where("handle", "==", handle)
               .get();
           })
+          // Delete all comments this user made.
           .then((data) => {
             data.forEach((doc) => {
               batch.delete(db.doc(`/comments/${doc.id}`));
+              // Find the tweet associated with this comment and decrement the count.
+              const tweetDocument = db.doc(`/tweets/${doc.data().tweetId}`);
+              tweetDocument.get().then((doc) => {
+                const count = doc.data().commentCount;
+                tweetDocument.update({ commentCount: count - 1 });
+              });
             });
             return batch.commit();
+          })
+          .then((data) => {
+            // If the user had a custom progile image, delete it.
+            if (imageFileName) {
+              admin
+                .storage()
+                .bucket(config.storageBucket)
+                .file(imageFileName)
+                .delete();
+            }
           });
       })
       .then(() => {
@@ -296,7 +330,9 @@ exports.uploadImage = (req, res) => {
       })
       .then(() => {
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
-        return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
+        return db
+          .doc(`/users/${req.user.handle}`)
+          .update({ imageUrl, imageFileName });
       })
       .then(() => {
         return res.json({ message: "Image uploaded succesfully" });

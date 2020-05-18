@@ -121,11 +121,11 @@ class TweetDialog extends Component {
           <hr className={classes.invisibleSeparator} />
           <Typography variant="body1">{body}</Typography>
           <LikeButton tweetId={tweetId} />
-          <span>{likeCount} likes</span>
-          <MyButton tip="Comments">
+          {likeCount}
+          <MyButton disabled>
             <ChatIcon color="primary" />
           </MyButton>
-          <span>{commentCount} comments</span>
+          {commentCount}
         </Grid>
         <hr className={classes.invisibleSeparator} />
         <CommentForm tweetId={tweetId} />
@@ -152,6 +152,7 @@ class TweetDialog extends Component {
           </MyButton>
           <DialogContent className={classes.dialogContent}>
             {dialogMarkup}
+            <hr className={classes.invisibleSeparator} />
           </DialogContent>
         </Dialog>
       </Fragment>

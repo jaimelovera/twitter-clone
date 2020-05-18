@@ -52,6 +52,17 @@ export const logoutUser = () => (dispatch) => {
   dispatch({ type: SET_UNAUTHENTICATED });
 };
 
+export const deleteAccount = (userId) => (dispatch) => {
+  axios
+    .post(`/user/delete/${userId}`)
+    .then((res) => {
+      dispatch(logoutUser());
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
