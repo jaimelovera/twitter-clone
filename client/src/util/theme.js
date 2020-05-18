@@ -62,13 +62,13 @@ export default {
         position: "relative",
         "& button": {
           position: "absolute",
-          top: "80%",
-          left: "70%",
+          top: "82%",
+          left: "52%",
         },
       },
       "& .profile-image": {
-        height: 200,
-        width: 200,
+        height: 100,
+        width: 100,
         borderRadius: "50%",
         objectFit: "cover",
       },

@@ -36,8 +36,8 @@ class user extends Component {
 
     let tweetsMarkup = loading ? (
       <TweetSkeleton />
-    ) : tweets === null ? (
-      <p>No tweets from this user</p>
+    ) : tweets === null || tweets.length === 0 ? (
+      <p>This user has not tweeted yet, check again later!</p>
     ) : !tweetIdParam ? (
       tweets.map((tweet) => <Tweet key={tweet.tweetId} tweet={tweet} />)
     ) : (
@@ -51,16 +51,16 @@ class user extends Component {
     );
 
     return (
-      <Grid container spacing={10}>
-        <Grid item sm={8} xs={12}>
-          {tweetsMarkup}
-        </Grid>
-        <Grid item sm={4} xs={12}>
+      <Grid container spacing={8}>
+        <Grid item xs={12} md={4}>
           {this.state.profile === null ? (
             <ProfileSkeleton />
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}
+        </Grid>
+        <Grid item xs={12} md={8}>
+          {tweetsMarkup}
         </Grid>
       </Grid>
     );

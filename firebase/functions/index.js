@@ -3,8 +3,8 @@ const app = require("express")();
 const { db } = require("./util/firebase");
 const FBAuth = require("./util/fbAuth");
 
-const cors = require("cors");
-app.use(cors());
+const cors = require("cors")({ origin: true });
+app.use(cors);
 
 const {
   getAllTweets,

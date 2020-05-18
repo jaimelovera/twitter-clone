@@ -26,14 +26,14 @@ import { getTweet, clearErrors } from "../../redux/actions/dataActions";
 const styles = (theme) => ({
   ...theme.spreadThis,
   profileImage: {
-    height: 180,
-    width: 180,
+    height: 100,
+    width: 100,
     borderRadius: "50%",
-    margin: "20px 0 0 20px",
+    margin: "15px 15px 0 15px",
     objectFit: "cover",
   },
   dialogContent: {
-    padding: 20,
+    padding: 24,
   },
   closeButton: {
     position: "absolute",
@@ -43,6 +43,9 @@ const styles = (theme) => ({
     textAlign: "center",
     marginTop: 50,
     marginBottom: 50,
+  },
+  tweetContent: {
+    paddingTop: 15,
   },
 });
 
@@ -101,31 +104,37 @@ class TweetDialog extends Component {
         <CircularProgress size={200} thickness={2} />
       </div>
     ) : (
-      <Grid container>
-        <Grid item sm={5}>
-          <img src={userImage} alt="Profile" className={classes.profileImage} />
-        </Grid>
-        <Grid item sm={7}>
-          <Typography
-            component={Link}
-            color="primary"
-            variant="h5"
-            to={`/users/${handle}`}
-          >
-            @{handle}
-          </Typography>
-          <hr className={classes.invisibleSeparator} />
-          <Typography variant="body2" color="textSecondary">
-            {dayjs(createdAt).format("h:mm a, MMM DD YYYY")}
-          </Typography>
-          <hr className={classes.invisibleSeparator} />
-          <Typography variant="body1">{body}</Typography>
-          <LikeButton tweetId={tweetId} />
-          {likeCount}
-          <MyButton disabled>
-            <ChatIcon color="primary" />
-          </MyButton>
-          {commentCount}
+      <Grid container direction="column">
+        <Grid container direction="row">
+          <Grid item sm={3}>
+            <img
+              src={userImage}
+              alt="Profile"
+              className={classes.profileImage}
+            />
+          </Grid>
+          <Grid item className={classes.tweetContent}>
+            <Typography
+              component={Link}
+              color="primary"
+              variant="h5"
+              to={`/users/${handle}`}
+            >
+              @{handle}
+            </Typography>
+            <hr className={classes.invisibleSeparator} />
+            <Typography variant="body2" color="textSecondary">
+              {dayjs(createdAt).format("h:mm a, MMM DD YYYY")}
+            </Typography>
+            <hr className={classes.invisibleSeparator} />
+            <Typography variant="body1">{body}</Typography>
+            <LikeButton tweetId={tweetId} />
+            {likeCount}
+            <MyButton disabled>
+              <ChatIcon color="primary" />
+            </MyButton>
+            {commentCount}
+          </Grid>
         </Grid>
         <hr className={classes.invisibleSeparator} />
         <CommentForm tweetId={tweetId} />

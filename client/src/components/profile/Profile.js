@@ -76,6 +76,7 @@ class Profile extends Component {
               </MyButton>
             </div>
             <hr />
+            <hr />
             <div className="profile-details">
               <MuiLink
                 component={Link}
@@ -92,7 +93,6 @@ class Profile extends Component {
                   <a href={website} target="_blank" rel="noopener noreferrer">
                     <LinkIcon color="primary" />
                   </a>
-                  <hr />
                 </Fragment>
               )}
               <hr />

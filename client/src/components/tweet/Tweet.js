@@ -24,10 +24,10 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
     borderRadius: "50%",
-    margin: "30px 0 0 30px",
+    margin: "30px 0 0 25px",
   },
   content: {
     padding: 25,
@@ -61,7 +61,7 @@ class Tweet extends Component {
 
     return (
       <Card className={classes.card}>
-        <div style={{ width: 110, height: 110 }}>
+        <div style={{ width: 80, height: 80 }}>
           <CardMedia
             image={userImage}
             component="img"

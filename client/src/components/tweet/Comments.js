@@ -19,7 +19,7 @@ const styles = (theme) => ({
     width: 60,
     borderRadius: "50%",
     objectFit: "cover",
-    margin: "8px 0 0 8px",
+    margin: "8px 8px 0 8px",
   },
   commentData: {},
 });
