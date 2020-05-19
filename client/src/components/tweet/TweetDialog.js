@@ -64,12 +64,7 @@ class TweetDialog extends Component {
     const { handle, tweetId } = this.props;
     const newPath = `/users/${handle}/tweet/${tweetId}`;
 
-    if (oldPath === newPath) {
-      oldPath = `/users/${handle}`;
-    }
-
     window.history.pushState(null, null, newPath);
-
     this.setState({ open: true, oldPath, newPath });
     this.props.getTweet(this.props.tweetId);
   };
@@ -143,8 +138,14 @@ class TweetDialog extends Component {
 
     return (
       <Fragment>
-        <MyButton onClick={this.handleOpen} tip="Comments">
-          <ChatIcon color="primary" />
+        <MyButton
+          onClick={this.handleOpen}
+          tip={this.props.tip}
+          noTooltip={this.props.noTooltip}
+          square={this.props.square}
+          btnClassName={this.props.btnClassName}
+        >
+          {this.props.children}
         </MyButton>
         <ResponsiveDialog
           open={this.state.open}

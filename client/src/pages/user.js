@@ -30,6 +30,14 @@ class user extends Component {
       })
       .catch((err) => console.log(err));
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match !== this.props.match) {
+      const tweetId = nextProps.match.params.tweetId;
+      if (tweetId) this.setState({ tweetIdParam: tweetId, openDialog: true });
+    }
+  }
+
   render() {
     const { tweets, loading } = this.props.data;
     const { tweetIdParam } = this.state;

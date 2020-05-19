@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
+import TweetDialog from "../tweet/TweetDialog";
 
 // Material-UI Stuff
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 
 // Icons
@@ -24,6 +23,7 @@ import { markNotificationsRead } from "../../redux/actions/userActions";
 class Notifications extends Component {
   state = {
     anchorEl: null,
+    open: "",
   };
 
   handleOpen = (e) => {
@@ -74,16 +74,17 @@ class Notifications extends Component {
               <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
             );
           return (
-            <MenuItem key={not.createdAt} onClick={this.handleClose}>
-              {icon}
-              <Typography
-                component={Link}
-                color="inherit"
-                variant="body1"
-                to={`/users/${not.recipient}/tweet/${not.tweetId}`}
+            <MenuItem style={{ backgroundColor: "transparent" }}>
+              <TweetDialog
+                tweetId={not.tweetId}
+                handle={not.recipient}
+                square
+                noTooltip
               >
-                {not.sender} {verb} your tweet {time}
-              </Typography>
+                {icon}
+                {not.sender} {verb} your tweet <br />
+                <div style={{ fontSize: "0.75em" }}>{time}</div>
+              </TweetDialog>
             </MenuItem>
           );
         })

@@ -17,6 +17,8 @@ import Typography from "@material-ui/core/Typography";
 // Redux
 import { connect } from "react-redux";
 
+import ChatIcon from "@material-ui/icons/Chat";
+
 const styles = {
   card: {
     position: "relative",
@@ -81,10 +83,13 @@ class Tweet extends Component {
           <LikeButton tweetId={tweetId} />
           {likeCount}
           <TweetDialog
+            tip="Comments"
             tweetId={tweetId}
             handle={handle}
             openDialog={this.props.openDialog}
-          />
+          >
+            <ChatIcon color="primary" />
+          </TweetDialog>
           {commentCount}
         </CardContent>
       </Card>
