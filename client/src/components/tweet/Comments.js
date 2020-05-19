@@ -41,6 +41,7 @@ class Comments extends Component {
           const { body, createdAt, userImage, handle } = comment;
           return (
             <Fragment key={createdAt}>
+              {index === 0 && <hr className={classes.visibleSeparator} />}
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={4} sm={2}>

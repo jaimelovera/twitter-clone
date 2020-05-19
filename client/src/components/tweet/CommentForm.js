@@ -70,7 +70,6 @@ class CommentForm extends Component {
             Submit
           </Button>
         </form>
-        <hr className={classes.visibleSeparator} />
       </Grid>
     ) : (
       <hr className={classes.visibleSeparator} />
