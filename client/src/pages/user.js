@@ -39,13 +39,28 @@ class user extends Component {
     ) : tweets === null || tweets.length === 0 ? (
       <p>This user has not tweeted yet, check again later!</p>
     ) : !tweetIdParam ? (
-      tweets.map((tweet) => <Tweet key={tweet.tweetId} tweet={tweet} />)
+      tweets.map((tweet) => (
+        <Tweet key={tweet.tweetId} tweet={tweet} userImage={tweet.userImage} />
+      ))
     ) : (
       tweets.map((tweet) => {
         if (tweet.tweetId !== tweetIdParam) {
-          return <Tweet key={tweet.tweetId} tweet={tweet} />;
+          return (
+            <Tweet
+              key={tweet.tweetId}
+              tweet={tweet}
+              userImage={tweet.userImage}
+            />
+          );
         } else {
-          return <Tweet key={tweet.tweetId} tweet={tweet} openDialog />;
+          return (
+            <Tweet
+              key={tweet.tweetId}
+              tweet={tweet}
+              openDialog
+              userImage={tweet.userImage}
+            />
+          );
         }
       })
     );
