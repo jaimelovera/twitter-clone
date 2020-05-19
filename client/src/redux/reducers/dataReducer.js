@@ -8,6 +8,8 @@ import {
   POST_TWEET,
   SUBMIT_COMMENT,
   DELETE_COMMENT,
+  IMAGE_UPLOAD,
+  CLEAR_USER_TWEETS,
 } from "../types";
 
 const initialState = {
@@ -92,6 +94,20 @@ export default function (state = initialState, action) {
           comments: [...state.tweet.comments],
           commentCount: state.tweet.commentCount - 1,
         },
+      };
+    case CLEAR_USER_TWEETS:
+      return {
+        ...state,
+        tweets: state.tweets.filter((twt) => twt.handle !== action.payload),
+      };
+    case IMAGE_UPLOAD:
+      state.tweets.forEach((twt) => {
+        if (action.payload.handle === twt.handle) {
+          twt.userImage = action.payload.userImage;
+        }
+      });
+      return {
+        ...state,
       };
     default:
       return state;

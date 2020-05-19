@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const app = require("express")();
-const { db } = require("./util/firebase");
+const { db, config } = require("./util/firebase");
+const { admin } = require("./util/admin");
 const FBAuth = require("./util/fbAuth");
 
 const cors = require("cors")({ origin: true });
@@ -116,35 +117,54 @@ exports.createNotificationOnComment = functions.firestore
   });
 
 // When a user changes their photo, update all url datapoints of that user.
+// And delete the old photo from storage.
 exports.onUserImageChange = functions.firestore
   .document("users/{userId}")
   .onUpdate((change) => {
+    const oldImage = change.before.data().imageFileName;
+    // Check that the image url was changed.
     if (change.before.data().imageUrl !== change.after.data().imageUrl) {
       const batch = db.batch();
-      return db
-        .collection("tweets")
-        .where("handle", "==", change.before.data().handle)
-        .get()
-        .then((data) => {
-          data.forEach((doc) => {
-            const tweet = db.doc(`/tweets/${doc.id}`);
-            batch.update(tweet, { userImage: change.after.data().imageUrl });
-          });
-          return db
-            .collection("comments")
-            .where("handle", "==", change.before.data().handle)
-            .get();
-        })
-        .then((data) => {
-          data.forEach((doc) => {
-            const comment = db.doc(`/comments/${doc.id}`);
-            batch.update(comment, { userImage: change.after.data().imageUrl });
-          });
-          return batch.commit();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      return (
+        db
+          .collection("tweets")
+          .where("handle", "==", change.before.data().handle)
+          .get()
+          // Update imageUrls in all tweets by this user.
+          .then((data) => {
+            data.forEach((doc) => {
+              const tweet = db.doc(`/tweets/${doc.id}`);
+              batch.update(tweet, { userImage: change.after.data().imageUrl });
+            });
+            return db
+              .collection("comments")
+              .where("handle", "==", change.before.data().handle)
+              .get();
+          })
+          // Update imageUrls in all comments by this user.
+          .then((data) => {
+            data.forEach((doc) => {
+              const comment = db.doc(`/comments/${doc.id}`);
+              batch.update(comment, {
+                userImage: change.after.data().imageUrl,
+              });
+            });
+            return batch.commit();
+          })
+          // Delete old image from storage.
+          .then(() => {
+            if (oldImage) {
+              admin
+                .storage()
+                .bucket(config.storageBucket)
+                .file(oldImage)
+                .delete();
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+      );
     } else {
       return true;
     }

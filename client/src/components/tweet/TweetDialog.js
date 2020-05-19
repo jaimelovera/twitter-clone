@@ -10,7 +10,6 @@ import CommentForm from "./CommentForm";
 import ResponsiveDialog from "../../util/ResponsiveDialog";
 
 //Material-UI Stuff
-import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
@@ -99,19 +98,19 @@ class TweetDialog extends Component {
 
     const dialogMarkup = loading ? (
       <div className={classes.spinnerDiv}>
-        <CircularProgress size={200} thickness={2} />
+        <CircularProgress size={200} thickness={1} />
       </div>
     ) : (
       <Grid container direction="column">
-        <Grid container direction="row" alignItems="center" justify="center">
-          <Grid item>
+        <Grid container direction="row">
+          <Grid item xs={12} sm={3}>
             <img
               src={userImage}
               alt="Profile"
               className={classes.profileImage}
             />
           </Grid>
-          <Grid item className={classes.tweetContent}>
+          <Grid item xs={12} sm={9} className={classes.tweetContent}>
             <Typography
               component={Link}
               color="primary"
@@ -125,7 +124,9 @@ class TweetDialog extends Component {
               {dayjs(createdAt).format("h:mm a, MMM DD YYYY")}
             </Typography>
             <hr className={classes.invisibleSeparator} />
-            <Typography variant="body1">{body}</Typography>
+            <Typography variant="body1" style={{ wordBreak: "break-word" }}>
+              <span>{body}</span>
+            </Typography>
             <LikeButton tweetId={tweetId} />
             {likeCount}
             <MyButton disabled>

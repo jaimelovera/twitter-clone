@@ -23,6 +23,7 @@ import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -75,8 +76,15 @@ class Profile extends Component {
                 <PhotoCameraIcon color="inherit" />
               </MyButton>
             </div>
-            <hr />
-            <hr />
+            <hr
+              style={{
+                backgroundColor: "rgba(0,0,0,0.1)",
+                height: 2,
+                width: "100%",
+                marginTop: 30,
+                marginBottom: 10,
+              }}
+            />
             <div className="profile-details">
               <MuiLink
                 component={Link}
@@ -92,15 +100,21 @@ class Profile extends Component {
                 <Fragment>
                   <a href={website} target="_blank" rel="noopener noreferrer">
                     <LinkIcon color="primary" />
+                    {" Website"}
                   </a>
                 </Fragment>
               )}
               <hr />
-              {bio && <Typography variant="body2">{bio}</Typography>}
+              {bio && (
+                <Typography variant="body2" style={{ wordBreak: "break-word" }}>
+                  {bio}
+                </Typography>
+              )}
               <hr />
               {location && (
                 <Fragment>
-                  <LocationOn color="inherit" /> <span>{location}</span>
+                  <LocationOn color="inherit" />{" "}
+                  <span style={{ wordBreak: "break-word" }}>{location}</span>
                   <hr />
                 </Fragment>
               )}
@@ -123,9 +137,10 @@ class Profile extends Component {
           </div>
         </Paper>
       ) : (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} style={{ textAlign: "center" }}>
+          <NotificationsActiveIcon style={{ paddingBottom: 10 }} />
           <Typography variant="body2" align="center">
-            Login or signup to continue
+            Log in or sign up to continue
           </Typography>
           <div className={classes.buttons}>
             <Button
@@ -134,15 +149,15 @@ class Profile extends Component {
               component={Link}
               to="/login"
             >
-              Login
+              Log in
             </Button>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               component={Link}
               to="/signup"
             >
-              Signup
+              Sign up
             </Button>
           </div>
         </Paper>

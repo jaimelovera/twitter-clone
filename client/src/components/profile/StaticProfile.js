@@ -30,7 +30,15 @@ const StaticProfile = (props) => {
         <div className="image-wrapper">
           <img src={imageUrl} alt="profile" className="profile-image" />
         </div>
-        <hr />
+        <hr
+          style={{
+            backgroundColor: "rgba(0,0,0,0.1)",
+            height: 2,
+            width: "100%",
+            marginTop: 30,
+            marginBottom: 10,
+          }}
+        />
         <div className="profile-details">
           <MuiLink
             component={Link}
@@ -45,22 +53,35 @@ const StaticProfile = (props) => {
             <Fragment>
               <a href={website} target="_blank" rel="noopener noreferrer">
                 <LinkIcon color="primary" />
+                {" Website"}
               </a>
               <hr />
             </Fragment>
           )}
           <hr />
-          {bio && <Typography variant="body2">{bio}</Typography>}
+          {bio && (
+            <Typography variant="body2" style={{ wordBreak: "break-word" }}>
+              {bio}
+            </Typography>
+          )}
           <hr />
           {location && (
             <Fragment>
-              <LocationOn color="inherit" /> <span>{location}</span>
+              <LocationOn color="inherit" />{" "}
+              <span style={{ wordBreak: "break-word" }}>{location}</span>
               <hr />
             </Fragment>
           )}
           <CalendarToday color="inherit" />{" "}
           <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
         </div>
+        <hr
+          style={{
+            width: "100%",
+            marginTop: 15,
+            marginBottom: 2,
+          }}
+        />
       </div>
     </Paper>
   );

@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import NoImg from "../images/gray-empty.png";
 
 // Material-UI Stuff
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = (theme) => ({
+  ...theme.spreadThis,
   card: {
     display: "flex",
     marginBottom: 20,
@@ -21,8 +22,9 @@ const styles = (theme) => ({
     padding: 20,
   },
   cover: {
-    width: 150,
-    height: 175,
+    height: 60,
+    width: 60,
+    margin: "30px 0 0 25px",
   },
   handle: {
     width: 60,
@@ -56,7 +58,9 @@ const TweetSkeleton = (props) => {
 
   const content = Array.from({ length: 5 }).map((iem, index) => (
     <Card className={classes.card} key={index}>
-      <CardMedia className={classes.cover} image={NoImg} />
+      <CardMedia className={classes.cover}>
+        <CircularProgress size={60} thickness={1} />
+      </CardMedia>
       <CardContent className={classes.cardContent}>
         <div className={classes.handle} />
         <div className={classes.date} />

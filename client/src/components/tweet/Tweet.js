@@ -39,15 +39,8 @@ class Tweet extends Component {
     dayjs.extend(relativeTime);
     const {
       classes,
-      tweet: {
-        body,
-        createdAt,
-        userImage,
-        handle,
-        tweetId,
-        likeCount,
-        commentCount,
-      },
+      userImage,
+      tweet: { body, createdAt, handle, tweetId, likeCount, commentCount },
       user: {
         authenticated,
         credentials: { handle: userHandle },
@@ -82,7 +75,9 @@ class Tweet extends Component {
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
-          <Typography variant="body1">{body}</Typography>
+          <Typography variant="body1" style={{ wordBreak: "break-word" }}>
+            {body}
+          </Typography>
           <LikeButton tweetId={tweetId} />
           {likeCount}
           <TweetDialog

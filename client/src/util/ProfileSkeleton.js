@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import NoImg from "../images/gray-empty.png";
 
 // Material-UI Stuff
 import Paper from "@material-ui/core/Paper";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -40,12 +40,23 @@ const ProfileSkeleton = (props) => {
     <Paper className={classes.paper}>
       <div className={classes.profile}>
         <div className="image-wrapper">
-          <img src={NoImg} alt="profile" className="profile-image" />
+          <CircularProgress size={110} thickness={1} />
         </div>
-        <hr />
+        <hr
+          style={{
+            backgroundColor: "rgba(0,0,0,0.1)",
+            height: 2,
+            width: "100%",
+            marginTop: 30,
+            marginBottom: 10,
+          }}
+        />
         <div className="profile-details">
           <div className={classes.handle} />
-          <LinkIcon color="inherit" />
+          <div>
+            <LinkIcon color="inherit" />
+            {" Website"}
+          </div>
           <hr />
           <hr />
           <div className={classes.fullLine} />
@@ -53,6 +64,13 @@ const ProfileSkeleton = (props) => {
           <LocationOn color="inherit" /> <span>Location</span>
           <hr />
           <CalendarToday color="inherit" /> <span>Joined date</span>
+          <hr
+            style={{
+              width: "100%",
+              marginTop: 15,
+              marginBottom: 2,
+            }}
+          />
         </div>
       </div>
     </Paper>

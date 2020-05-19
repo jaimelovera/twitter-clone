@@ -16,6 +16,10 @@ exports.signup = (req, res) => {
     handle: req.body.handle,
   };
 
+  // Remove any white space on ends of the email and handle
+  newUser.email = newUser.email.trim();
+  newUser.handle = newUser.handle.trim();
+
   const { valid, errors } = validateSignupData(newUser);
 
   if (!valid) {
@@ -148,7 +152,7 @@ exports.deleteAccount = (req, res) => {
             return batch.commit();
           })
           .then((data) => {
-            // If the user had a custom progile image, delete it.
+            // If the user had a custom profile image, delete it.
             if (imageFileName) {
               admin
                 .storage()
@@ -299,6 +303,7 @@ exports.getAuthenticatedUser = (req, res) => {
 
 // Upload a profile image for user.
 exports.uploadImage = (req, res) => {
+  const oldImage = req.user.imageUrls;
   const BusBoy = require("busboy");
   const path = require("path");
   const os = require("os");
@@ -315,7 +320,9 @@ exports.uploadImage = (req, res) => {
     }
     // Grab file extension type.
     const imageExtension = filename.split(".").pop();
-    imageFileName = `${req.user.handle}.${imageExtension}`;
+    imageFileName = `${req.user.handle}${Math.floor(
+      Math.random() * 100000 + 1
+    )}.${imageExtension}`;
     const filepath = path.join(os.tmpdir(), imageFileName);
     imageToBeUploaded = { filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));

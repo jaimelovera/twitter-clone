@@ -12,6 +12,12 @@ import { submitComment } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
+  textField: {
+    margin: 10,
+  },
+  button: {
+    marginBottom: 40,
+  },
 });
 
 class CommentForm extends Component {
@@ -66,7 +72,9 @@ class CommentForm extends Component {
         </form>
         <hr className={classes.visibleSeparator} />
       </Grid>
-    ) : null;
+    ) : (
+      <hr className={classes.visibleSeparator} />
+    );
     return commentFormMarkup;
   }
 }

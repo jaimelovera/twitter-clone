@@ -9,9 +9,6 @@ import TweetSkeleton from "../util/TweetSkeleton";
 import { connect } from "react-redux";
 import { getTweets } from "../redux/actions/dataActions";
 
-// Material-UI Stuff
-import { useTheme } from "@material-ui/styles";
-
 class home extends Component {
   componentDidMount() {
     this.props.getTweets();
@@ -20,7 +17,9 @@ class home extends Component {
   render() {
     const { tweets, loading } = this.props.data;
     let recentTweetsMarkup = !loading ? (
-      tweets.map((tweet) => <Tweet key={tweet.tweetId} tweet={tweet} />)
+      tweets.map((tweet) => (
+        <Tweet key={tweet.tweetId} tweet={tweet} userImage={tweet.userImage} />
+      ))
     ) : (
       <TweetSkeleton />
     );

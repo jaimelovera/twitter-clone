@@ -68,7 +68,7 @@ class signup extends Component {
             alt="Twitter Logo"
           />
           <Typography variant="h1" className={classes.pageTitle}>
-            Signup
+            Sign up
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
@@ -131,14 +131,14 @@ class signup extends Component {
               className={classes.button}
               disabled={loading}
             >
-              Signup
+              Sign up
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
             <small>
-              already have an account? login <Link to="/login">here</Link>
+              already have an account? log in <Link to="/login">here</Link>
             </small>
           </form>
         </Grid>

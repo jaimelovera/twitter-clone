@@ -70,7 +70,10 @@ class EditDetails extends Component {
   };
 
   handleDeleteAccount = () => {
-    this.props.deleteAccount(this.props.credentials.userId);
+    this.props.deleteAccount(
+      this.props.credentials.userId,
+      this.props.credentials.handle
+    );
   };
 
   handleSubmit = () => {
@@ -101,7 +104,7 @@ class EditDetails extends Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          fillWidth
+          fullWidth
           maxWidth="sm"
         >
           <DialogTitle>Edit your details</DialogTitle>

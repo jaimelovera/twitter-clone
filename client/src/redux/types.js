@@ -21,3 +21,5 @@ export const DELETE_TWEET = "DELETE_TWEET";
 export const POST_TWEET = "POST_TWEET";
 export const SUBMIT_COMMENT = "SUBMIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+export const IMAGE_UPLOAD = "IMAGE_UPLOAD";
+export const CLEAR_USER_TWEETS = "CLEAR_USER_TWEETS";
