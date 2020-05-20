@@ -144,6 +144,7 @@ class TweetDialog extends Component {
           noTooltip={this.props.noTooltip}
           square={this.props.square}
           btnClassName={this.props.btnClassName}
+          style={this.props.style}
         >
           {this.props.children}
         </MyButton>

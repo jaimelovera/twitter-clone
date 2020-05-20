@@ -10,6 +10,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 // Icons
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -74,16 +76,38 @@ class Notifications extends Component {
               <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
             );
           return (
-            <MenuItem style={{ backgroundColor: "transparent" }}>
+            <MenuItem style={{ backgroundColor: "transparent", padding: 0 }}>
               <TweetDialog
                 tweetId={not.tweetId}
                 handle={not.recipient}
                 square
                 noTooltip
+                style={{ width: "100%", padding: "10px 15px 10px 15px" }}
               >
-                {icon}
-                {not.sender} {verb} your tweet <br />
-                <div style={{ fontSize: "0.75em" }}>{time}</div>
+                <Grid container direction="row">
+                  <Grid item>
+                    <Typography>{icon}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Grid container direction="column">
+                      <Grid item>
+                        <Typography style={{ fontSize: "1em" }}>
+                          {not.sender} {verb} your tweet
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          style={{
+                            fontSize: "0.4em",
+                            textAlign: "left",
+                          }}
+                        >
+                          {time}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
               </TweetDialog>
             </MenuItem>
           );

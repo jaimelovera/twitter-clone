@@ -11,35 +11,36 @@ export default ({
   tipClassName,
   disabled,
   noTooltip,
+  style,
   square,
 }) => {
   return square ? (
     disabled ? (
-      <Button className={btnClassName} disabled>
+      <Button className={btnClassName} style={style} disabled>
         {children}
       </Button>
     ) : noTooltip ? (
-      <Button onClick={onClick} className={{ btnClassName }}>
+      <Button onClick={onClick} style={style} className={btnClassName}>
         {children}
       </Button>
     ) : (
       <Tooltip title={tip} className={tipClassName} placement="top">
-        <Button onClick={onClick} className={btnClassName}>
+        <Button onClick={onClick} style={style} className={btnClassName}>
           {children}
         </Button>
       </Tooltip>
     )
   ) : disabled ? (
-    <IconButton className={btnClassName} disabled>
+    <IconButton className={btnClassName} style={style} disabled>
       {children}
     </IconButton>
   ) : noTooltip ? (
-    <IconButton onClick={onClick} className={btnClassName}>
+    <IconButton onClick={onClick} style={style} className={btnClassName}>
       {children}
     </IconButton>
   ) : (
     <Tooltip title={tip} className={tipClassName} placement="top">
-      <IconButton onClick={onClick} className={btnClassName}>
+      <IconButton onClick={onClick} style={style} className={btnClassName}>
         {children}
       </IconButton>
     </Tooltip>

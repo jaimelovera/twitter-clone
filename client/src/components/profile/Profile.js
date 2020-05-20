@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import imageCompression from "browser-image-compression";
 import EditDetails from "./EditDetails";
 import MyButton from "../../util/MyButton";
 import ProfileSkeleton from "../../util/ProfileSkeleton";
@@ -30,11 +31,23 @@ const styles = (theme) => ({
 });
 
 class Profile extends Component {
+  // Compress the selected file to a smaller size, then upload to server.
   handleImageChange = (e) => {
-    const image = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", image, image.name);
-    this.props.uploadImage(formData);
+    const originalImage = e.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 500,
+    };
+    const uploadImage = this.props.uploadImage;
+    imageCompression(originalImage, options)
+      .then(function (compressedImage) {
+        const formData = new FormData();
+        formData.append("image", compressedImage, compressedImage.name);
+        return uploadImage(formData);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
   };
 
   handleEditPicture = () => {
