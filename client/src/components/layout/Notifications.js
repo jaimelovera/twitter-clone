@@ -137,6 +137,7 @@ class Notifications extends Component {
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
+          style={{ maxHeight: 400 }}
         >
           {notificationsMarkup}
         </Menu>
