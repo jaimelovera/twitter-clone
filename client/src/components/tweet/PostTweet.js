@@ -109,6 +109,7 @@ class PostTweet extends Component {
                 className={classes.textField}
                 onChange={this.handleChange}
                 fullWidth
+                inputProps={{ maxLength: 280 }}
               />
               <Button
                 type="submit"

@@ -154,7 +154,7 @@ exports.onUserImageChange = functions.firestore
           // Delete old image from storage.
           .then(() => {
             if (oldImage) {
-              admin
+              return admin
                 .storage()
                 .bucket(config.storageBucket)
                 .file(oldImage)
@@ -170,7 +170,7 @@ exports.onUserImageChange = functions.firestore
     }
   });
 
-// When a post is deleted, delete all datapoints that were attributed to the post.
+// When a tweet is deleted, delete all datapoints connected to it.
 exports.onTweetDelete = functions.firestore
   .document("tweets/{tweetId}")
   .onDelete((snapshot, context) => {
@@ -205,3 +205,96 @@ exports.onTweetDelete = functions.firestore
         console.error(err);
       });
   });
+
+// When a user account is removed, delete all documents belonging to the user,
+// and fix comment and like counts of attributed tweets.
+// I set this up so when I manually delete a user from the firebase admin website,
+// it will delete all users files.
+exports.onDeleteAccount = functions.auth.user().onDelete((user) => {
+  const batch = db.batch();
+  let imageFileName;
+  let handle;
+  return (
+    db
+      .collection("users")
+      .where("userId", "==", user.uid)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          handle = doc.data().handle;
+          if (doc.data().imageFileName) {
+            imageFileName = doc.data().imageFileName;
+          }
+          batch.delete(db.doc(`/users/${doc.id}`));
+        });
+        return db.collection("tweets").where("handle", "==", handle).get();
+      })
+      // Delete all tweets user made.
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/tweets/${doc.id}`));
+        });
+        return db
+          .collection("notifications")
+          .where("sender", "==", handle)
+          .get();
+      })
+      // Delete all notifications this user had.
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/notifications/${doc.id}`));
+        });
+        return db
+          .collection("notifications")
+          .where("recipient", "==", handle)
+          .get();
+      })
+      // Delete all outstanding notifications this user created for other users.
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/notifications/${doc.id}`));
+        });
+        return db.collection("likes").where("handle", "==", handle).get();
+      })
+      // Delete all likes this user made.
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/likes/${doc.id}`));
+          // Find the tweet associated with this like and decrement the count.
+          const tweetDocument = db.doc(`/tweets/${doc.data().tweetId}`);
+          tweetDocument.get().then((doc) => {
+            const count = doc.data().likeCount;
+            tweetDocument.update({ likeCount: count - 1 });
+          });
+        });
+        return db.collection("comments").where("handle", "==", handle).get();
+      })
+      // Delete all comments this user made.
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/comments/${doc.id}`));
+          // Find the tweet associated with this comment and decrement the count.
+          const tweetDocument = db.doc(`/tweets/${doc.data().tweetId}`);
+          tweetDocument.get().then((doc) => {
+            const count = doc.data().commentCount;
+            tweetDocument.update({ commentCount: count - 1 });
+          });
+        });
+        return batch.commit();
+      })
+      .then(() => {
+        // If the user had a custom profile image, delete it.
+        // imageFileName only exists if photo isnt the default one.
+        if (imageFileName) {
+          return admin
+            .storage()
+            .bucket(config.storageBucket)
+            .file(imageFileName)
+            .delete();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  );
+});

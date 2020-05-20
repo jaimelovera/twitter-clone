@@ -60,6 +60,7 @@ class CommentForm extends Component {
             onChange={this.handleChange}
             fullWidth
             className={classes.textField}
+            inputProps={{ maxLength: 280 }}
           />
           <Button
             type="submit"

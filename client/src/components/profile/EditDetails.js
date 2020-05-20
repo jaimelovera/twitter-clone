@@ -121,6 +121,7 @@ class EditDetails extends Component {
                 value={this.state.bio}
                 onChange={this.handleChange}
                 fullWidth
+                inputProps={{ maxLength: 280 }}
               />
               <TextField
                 name="website"
@@ -131,6 +132,7 @@ class EditDetails extends Component {
                 value={this.state.website}
                 onChange={this.handleChange}
                 fullWidth
+                inputProps={{ maxLength: 280 }}
               />
               <TextField
                 name="location"
@@ -141,6 +143,7 @@ class EditDetails extends Component {
                 value={this.state.location}
                 onChange={this.handleChange}
                 fullWidth
+                inputProps={{ maxLength: 180 }}
               />
             </form>
           </DialogContent>

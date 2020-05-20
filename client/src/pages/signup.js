@@ -118,6 +118,7 @@ class signup extends Component {
               value={this.state.handle}
               onChange={this.handleChange}
               fullWidth
+              inputProps={{ maxLength: 15 }}
             />
             {errors.general && (
               <Typography variant="body2" className={classes.customError}>
