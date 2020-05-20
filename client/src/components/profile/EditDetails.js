@@ -82,6 +82,7 @@ class EditDetails extends Component {
       website: this.state.website,
       location: this.state.location,
     };
+    console.log(userDetails);
     this.props.editUserDetails(userDetails);
     this.handleClose();
   };
