@@ -38,6 +38,11 @@ const styles = (theme) => ({
   closeButtonContainer: {
     height: 15,
   },
+  closeButton: {
+    backgroundColor: "rgba(0,0,0,0.02)",
+    marginTop: "10px",
+    marginRight: "18px",
+  },
   spinnerDiv: {
     textAlign: "center",
     marginTop: 50,
@@ -158,7 +163,11 @@ class TweetDialog extends Component {
         >
           <Grid container alignItems="flex-end" justify="flex-end">
             <Grid item className={classes.closeButtonContainer}>
-              <MyButton tip="Close" onClick={this.handleClose}>
+              <MyButton
+                tip="Close"
+                onClick={this.handleClose}
+                btnClassName={classes.closeButton}
+              >
                 <CloseIcon />
               </MyButton>
             </Grid>
