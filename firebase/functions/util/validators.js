@@ -62,13 +62,18 @@ exports.validateLoginData = (data) => {
 
 exports.reduceUserDetails = (data) => {
   let userDetails = {};
-  userDetails.bio = data.bio.trim();
-  userDetails.location = data.location.trim();
 
-  if (data.website.trim().substring(0, 4) !== "http") {
-    userDetails.website = `http://${data.website.trim()}`;
+  const bio = data.bio.trim();
+  const website = data.website.trim();
+  const location = data.location.trim();
+
+  userDetails.bio = bio;
+  userDetails.location = location;
+
+  if (website.substring(0, 4) !== "http" && website !== "") {
+    userDetails.website = `http://${website}`;
   } else {
-    userDetails.website = data.website.trim();
+    userDetails.website = website;
   }
   return userDetails;
 };
