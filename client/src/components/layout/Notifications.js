@@ -85,24 +85,38 @@ class Notifications extends Component {
                 style={{ width: "100%", padding: "10px 15px 10px 15px" }}
               >
                 <Grid container direction="row">
-                  <Grid item>
+                  <Grid item xs={1}>
                     <Typography>{icon}</Typography>
                   </Grid>
-                  <Grid item>
+                  <Grid item xs={11}>
                     <Grid container direction="column">
                       <Grid item>
-                        <Typography style={{ fontSize: "1em" }}>
-                          {not.sender} {verb} your tweet
+                        <Typography
+                          style={{
+                            fontSize: "1em",
+                            textAlign: "left",
+                            padding: 0,
+                            margin: 0,
+                            paddingLeft: 15,
+                          }}
+                          spacing={0}
+                        >
+                          <strong>{not.sender}</strong>
+                          <br />
+                          <span style={{ fontSize: "0.75em" }}>
+                            {verb} your tweet
+                          </span>
                         </Typography>
                       </Grid>
                       <Grid item>
                         <Typography
                           style={{
-                            fontSize: "0.4em",
+                            fontSize: "0.75em",
                             textAlign: "left",
+                            paddingLeft: 15,
                           }}
                         >
-                          {time}
+                          <i>{time}</i>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -137,7 +151,7 @@ class Notifications extends Component {
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
-          style={{ maxHeight: 400 }}
+          style={{ maxHeight: 540 }}
         >
           {notificationsMarkup}
         </Menu>
