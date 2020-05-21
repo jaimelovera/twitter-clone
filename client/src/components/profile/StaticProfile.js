@@ -45,6 +45,7 @@ const StaticProfile = (props) => {
             to={`/users/${handle}`}
             color="primary"
             variant="h5"
+            style={{ textDecoration: "none" }}
           >
             @{handle}
           </MuiLink>

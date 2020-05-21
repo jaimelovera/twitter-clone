@@ -16,25 +16,39 @@ class user extends Component {
     profile: null,
     tweetIdParam: null,
   };
+
+  getUserData = (handle) => {
+    this.props.getUserData(handle);
+    axios
+      .get(`/user/${handle}`)
+      .then((res) => {
+        this.setState({ profile: res.data.user, handle });
+      })
+      .catch((err) => console.log(err));
+  };
+
   componentDidMount() {
     const handle = this.props.match.params.handle;
     const tweetId = this.props.match.params.tweetId;
     if (tweetId) {
       this.setState({ tweetIdParam: tweetId });
     }
-    this.props.getUserData(handle);
-    axios
-      .get(`/user/${handle}`)
-      .then((res) => {
-        this.setState({ profile: res.data.user });
-      })
-      .catch((err) => console.log(err));
+    this.getUserData(handle);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match !== this.props.match) {
       const tweetId = nextProps.match.params.tweetId;
-      if (tweetId) this.setState({ tweetIdParam: tweetId, openDialog: true });
+      if (tweetId) {
+        this.setState({ tweetIdParam: tweetId, openDialog: true });
+      }
+
+      const currentHandle = this.props.match.params.handle;
+      const nextHandle = nextProps.match.params.handle;
+      if (currentHandle !== nextHandle) {
+        this.setState({ profile: null });
+        this.getUserData(nextHandle);
+      }
     }
   }
 

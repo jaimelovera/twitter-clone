@@ -25,7 +25,6 @@ import { markNotificationsRead } from "../../redux/actions/userActions";
 class Notifications extends Component {
   state = {
     anchorEl: null,
-    open: "",
   };
 
   handleOpen = (e) => {
@@ -83,6 +82,7 @@ class Notifications extends Component {
                 square
                 noTooltip
                 style={{ width: "100%", padding: "10px 15px 10px 15px" }}
+                handleCloseOuter={this.handleClose}
               >
                 <Grid container direction="row">
                   <Grid item xs={1}>

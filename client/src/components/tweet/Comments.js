@@ -53,15 +53,14 @@ class Comments extends Component {
                   </Grid>
                   <Grid item xs={8} sm={10}>
                     <div className={classes.commentData}>
-                      <Typography
-                        variant="h5"
-                        component={Link}
+                      <Link
                         to={`/users/${handle}`}
-                        color="primary"
+                        onClick={this.props.handleClose}
                       >
-                        {handle}
-                      </Typography>
-
+                        <Typography variant="h5" color="primary">
+                          {handle}
+                        </Typography>
+                      </Link>
                       {authenticated && handle === userHandle ? (
                         <DeleteComment commentId={comment.commentId} />
                       ) : null}

@@ -33,15 +33,13 @@ const styles = (theme) => ({
     objectFit: "cover",
   },
   dialogContent: {
-    padding: "0 20px 30px 20px",
-  },
-  closeButtonContainer: {
-    height: 15,
+    padding: "20px 15px 20px 15px",
   },
   closeButton: {
-    backgroundColor: "rgba(0,0,0,0.02)",
-    marginTop: "10px",
-    marginRight: "18px",
+    backgroundColor: "rgba(0,0,0,0.04)",
+    position: "absolute",
+    top: "3%",
+    right: "6%",
   },
   spinnerDiv: {
     textAlign: "center",
@@ -82,6 +80,13 @@ class TweetDialog extends Component {
     this.props.clearErrors();
   };
 
+  handleBothClose = () => {
+    this.handleClose();
+    if (this.props.handleCloseOuter) {
+      this.props.handleCloseOuter();
+    }
+  };
+
   render() {
     const {
       classes,
@@ -113,14 +118,11 @@ class TweetDialog extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={9} className={classes.tweetContent}>
-            <Typography
-              component={Link}
-              color="primary"
-              variant="h5"
-              to={`/users/${handle}`}
-            >
-              @{handle}
-            </Typography>
+            <Link to={`/users/${handle}`} onClick={this.handleBothClose}>
+              <Typography color="primary" variant="h5">
+                @{handle}
+              </Typography>
+            </Link>
             <hr className={classes.invisibleSeparator} />
             <Typography variant="body2" color="textSecondary">
               {dayjs(createdAt).format("h:mm a, MMM DD YYYY")}
@@ -139,7 +141,7 @@ class TweetDialog extends Component {
         </Grid>
         <hr className={classes.invisibleSeparator} />
         <CommentForm tweetId={tweetId} />
-        <Comments comments={comments} />
+        <Comments comments={comments} handleClose={this.handleBothClose} />
       </Grid>
     );
 
@@ -161,17 +163,14 @@ class TweetDialog extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <Grid container alignItems="flex-end" justify="flex-end">
-            <Grid item className={classes.closeButtonContainer}>
-              <MyButton
-                tip="Close"
-                onClick={this.handleClose}
-                btnClassName={classes.closeButton}
-              >
-                <CloseIcon />
-              </MyButton>
-            </Grid>
-          </Grid>
+          <Grid container alignItems="flex-end" justify="flex-end"></Grid>
+          <MyButton
+            tip="Close"
+            onClick={this.handleClose}
+            btnClassName={classes.closeButton}
+          >
+            <CloseIcon />
+          </MyButton>
           <DialogContent className={classes.dialogContent}>
             {dialogMarkup}
             <hr className={classes.invisibleSeparator} />
