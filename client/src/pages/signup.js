@@ -28,6 +28,10 @@ class signup extends Component {
     errors: {},
   };
 
+  componentDidMount() {
+    document.body.style.backgroundColor = "#FFF";
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.ui.errors) {
       this.setState({ errors: nextProps.ui.errors });

@@ -48,6 +48,7 @@ class App extends Component {
         <Provider store={store}>
           <Router>
             <Navbar />
+            <div style={{ height: 1, marginBottom: 100 }} />
             <div className="container">
               <Switch>
                 <Route exact path="/" component={home} />

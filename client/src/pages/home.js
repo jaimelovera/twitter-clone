@@ -11,6 +11,7 @@ import { getTweets } from "../redux/actions/dataActions";
 
 class home extends Component {
   componentDidMount() {
+    document.body.style.backgroundColor = "rgb(214, 214, 214)";
     this.props.getTweets();
   }
 
