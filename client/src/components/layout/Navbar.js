@@ -20,8 +20,8 @@ class Navbar extends Component {
     const buttonDivider = <div style={{ width: "15px" }} />;
 
     return (
-      <AppBar>
-        <Toolbar className="nav-container">
+      <AppBar className="nav-container">
+        <Toolbar>
           {authenticated ? (
             <Fragment>
               <PostTweet />

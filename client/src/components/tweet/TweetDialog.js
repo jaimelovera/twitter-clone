@@ -38,6 +38,7 @@ const styles = (theme) => ({
   closeButton: {
     backgroundColor: "rgba(0,0,0,0.04)",
     position: "absolute",
+    zIndex: 99,
     top: "3%",
     right: "6%",
   },
@@ -163,14 +164,15 @@ class TweetDialog extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <Grid container alignItems="flex-end" justify="flex-end"></Grid>
-          <MyButton
-            tip="Close"
-            onClick={this.handleClose}
-            btnClassName={classes.closeButton}
-          >
-            <CloseIcon />
-          </MyButton>
+          <Grid container alignItems="flex-end" justify="flex-end">
+            <MyButton
+              tip="Close"
+              onClick={this.handleClose}
+              btnClassName={classes.closeButton}
+            >
+              <CloseIcon />
+            </MyButton>
+          </Grid>
           <DialogContent className={classes.dialogContent}>
             {dialogMarkup}
             <hr className={classes.invisibleSeparator} />

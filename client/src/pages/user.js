@@ -28,6 +28,7 @@ class user extends Component {
   };
 
   componentDidMount() {
+    document.body.style.backgroundColor = "rgb(214, 214, 214)";
     const handle = this.props.match.params.handle;
     const tweetId = this.props.match.params.tweetId;
     if (tweetId) {

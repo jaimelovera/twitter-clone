@@ -14,7 +14,6 @@ const styles = (theme) => ({
   card: {
     display: "flex",
     marginBottom: 20,
-    marginLeft: 10,
   },
   cardContent: {
     width: "100%",

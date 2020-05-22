@@ -73,7 +73,7 @@ class CommentForm extends Component {
         </form>
       </Grid>
     ) : (
-      <hr className={classes.visibleSeparator} />
+      <hr className={classes.invisibleSeparator} />
     );
     return commentFormMarkup;
   }

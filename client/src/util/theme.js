@@ -19,7 +19,7 @@ export default {
     },
     form: {
       textAlign: "center",
-      margin: "0 20px 0 20px",
+      padding: "0 22px 0 22px",
     },
     logoImage: {
       height: 75,
