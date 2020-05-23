@@ -1,4 +1,4 @@
-# Twitter Clone - Full Stack Web App
+# Twitter Clone - Full Stack Responsive Web App
 
 > A full stack project I developed to further build and develop my skillset!
 > <br/>
