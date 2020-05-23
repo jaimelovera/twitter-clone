@@ -8,10 +8,10 @@
 
 https://twitter-clone-b442b.web.app/
 
-Sign up with a email and password to get full access to the application.
+Sign up with email and password to get full access to the application.
 <br/>
 
-> Note: You can use a made up email for the purpose of testing the app, email is not validated.
+> Pro tip: You can use a made up email for the purpose of testing the app, email is not validated.
 
 ## Quick Start
 
