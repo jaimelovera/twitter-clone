@@ -24,9 +24,9 @@ export const loginUser = (userData, history) => (dispatch) => {
   axios
     .post("/login", userData)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
     .catch((err) => {
@@ -40,9 +40,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
   axios
     .post("/signup", newUserData)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
     .catch((err) => {
