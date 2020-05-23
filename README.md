@@ -1,7 +1,6 @@
 # Twitter Clone - Full Stack Responsive Web App
 
-> A full stack project I developed to further build and develop my skillset!
-> <br/>
+> A full stack project I developed to further build and develop my skillset!  
 > Utilized [Firebase](https://firebase.google.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [Material-UI](https://material-ui.com/).
 
 ## Visit My Live Demo
@@ -9,9 +8,8 @@
 https://twitter-clone-b442b.web.app/
 
 Sign up with email and password to get full access to the application.
-<br/>
 
-> Pro tip: You can use a made up email for the purpose of testing the app, email is not validated.
+> Note: You can use a made up email for the purpose of testing the app, email is not validated.
 
 ## Quick Start
 
@@ -40,7 +38,6 @@ npm run build
 ## Development Process
 
 **Backend:**
-<br/>
 
 - It was really nice using Google's Firebase service to design and build my backend architecture. The real time database allowed me to take more of a test driven approach due to the ability of seeing changes made almost instantly in real time.
 - I utilized [Postman](https://www.postman.com/) to help test my API as I was developing it. It is a awesome tool!
@@ -49,7 +46,6 @@ npm run build
 - In addition to basic API functions to retrieve, delete, and write data, I created a function that gets trigged when a user account is deleted. When an account is deleted, this trigger will delete all of the users data, and update other data points accordingly (i.e. like/comment counts).
 
 **Frontend:**
-<br/>
 
 - I really like React, and I am continuing to use it. I thought about using the React Context API to help manage my global state as I thought it was sufficient for the requirements of this project, but I decided to use Redux for this project to learn more about it. I think Reacts Context API would have been easier to use in this application, but for the cause of learning, I went with Redux.
 - In previous projects, I have stuck to pure CSS for styling. This time I decided to use a UI framework. I chose Material-UI, a popular React UI framework with a large community of developers. This framework takes advantage off CSS grid layout which I love using.
@@ -60,31 +56,31 @@ npm run build
 
 #### Log in
 
-![Log in](/readme_screenshots/login.png)
+![Log in](./readme_screenshots/login.png)
 
 #### Homepage
 
-![HomePage](/readme_screenshots/homepage.png)
+![HomePage](./readme_screenshots/homepage.png)
 
 #### Receive And View Notifications
 
-![Notifications](/readme_screenshots/notifications.png)
+![Notifications](./readme_screenshots/notifications.png)
 
 #### Edit User Details And Delete Account
 
-![Edit User Details And Delete Account](/readme_screenshots/edit-details.png)
+![Edit User Details And Delete Account](./readme_screenshots/edit-details.png)
 
 #### Tweet Dialog
 
-![Tweet Dialog](/readme_screenshots/tweet-dialog.png)
+![Tweet Dialog](./readme_screenshots/tweet-dialog.png)
 
 #### Loading Skeleton
 
-![Loading Skeleton](/readme_screenshots/loading-skeleton.png)
+![Loading Skeleton](./readme_screenshots/loading-skeleton.png)
 
 #### Database
 
-![Database](/readme_screenshots/database.png)
+![Database](./readme_screenshots/database.png)
 
 ## App Info
 
