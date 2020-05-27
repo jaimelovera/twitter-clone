@@ -1,4 +1,4 @@
-const { db } = require("../util/firebase");
+const { db } = require("../util/admin");
 
 exports.getAllTweets = (req, res) => {
   db.collection("tweets")

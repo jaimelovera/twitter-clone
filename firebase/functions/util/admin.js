@@ -1,9 +1,7 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../serviceAccountKey.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://twitter-clone-b442b.firebaseio.com",
-});
+admin.initializeApp();
 
-module.exports = { admin };
+const db = admin.firestore();
+
+module.exports = { admin, db };
