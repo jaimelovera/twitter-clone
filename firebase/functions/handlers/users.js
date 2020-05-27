@@ -96,6 +96,7 @@ exports.deleteAccount = (req, res) => {
 
 // Log user in.
 exports.login = (req, res) => {
+  console.error(config);
   const user = {
     email: req.body.email,
     password: req.body.password,

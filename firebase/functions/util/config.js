@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
   apiKey: "AIzaSyD9WKKCwZsfwh_AinuTkGncDKWtGfv-Jew",
   authDomain: "twitter-clone-b442b.firebaseapp.com",
   databaseURL: "https://twitter-clone-b442b.firebaseio.com",
