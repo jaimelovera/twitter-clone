@@ -3,19 +3,6 @@
 > A full stack project I developed to further build and develop my skillset!  
 > Utilized [Firebase](https://firebase.google.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [Material-UI](https://material-ui.com/).
 
-## Quick Start
-
-```
-# Install dependencies
-npm install
-
-# Serve on localhost:3000
-npm start
-
-# Build for production
-npm run build
-```
-
 ## Key Features
 
 - Desktop and mobile friendly.
