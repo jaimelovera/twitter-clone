@@ -3,14 +3,6 @@
 > A full stack project I developed to further build and develop my skillset!  
 > Utilized [Firebase](https://firebase.google.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [Material-UI](https://material-ui.com/).
 
-## Visit My Live Demo
-
-https://twitter-clone-b442b.web.app/
-
-Sign up with email and password to get full access to the application.
-
-> Note: You can use a made up email for the purpose of testing the app, email is not validated.
-
 ## Quick Start
 
 ```
@@ -84,4 +76,4 @@ npm run build
 
 ## App Info
 
-#### Author: [Jaime Lovera](https://www.jaimelovera.com/)
+#### Author: [Jaime Lovera](https://github.com/jaimelovera)
