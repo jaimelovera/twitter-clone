@@ -1,10 +1,9 @@
 # Twitter Clone - Full Stack Responsive Web App
 
-A full stack project I developed to further build and develop my skillset!  
-
-Utilized [Firebase](https://firebase.google.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [Material-UI](https://material-ui.com/).
-
 ###### Note: I no longer have the hosting services running for this website.
+
+> A full stack project I developed to further build and develop my skillset!  
+> Utilized [Firebase](https://firebase.google.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [Material-UI](https://material-ui.com/).
 
 ## Key Features
 
